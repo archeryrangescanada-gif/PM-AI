@@ -14,6 +14,14 @@
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json" />
+  <script>
+    // Unregister any cached service workers
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        regs.forEach(reg => reg.unregister());
+      });
+    }
+  </script>
 
     <!-- Icons -->
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
