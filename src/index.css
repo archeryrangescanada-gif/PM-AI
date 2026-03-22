@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #00D4AA;
-  --color-primary-dark: #00B899;
-  --color-primary-light: #33DDBB;
+  --color-primary: #0099A8;
+  --color-primary-dark: #007A88;
+  --color-primary-light: #22B5C2;
   --color-secondary: #475569;
   --color-secondary-dark: #334155;
   --color-secondary-light: #64748b;
-  --color-accent: #00D4AA;
+  --color-accent: #0099A8;
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-danger: #ef4444;
-  --color-bg: #060D1A;
-  --color-bg-card: #0D1F35;
+  --color-bg: #0C1628;
+  --color-bg-card: #111F36;
   --color-gray-50: #f8fafc;
   --color-gray-100: #f1f5f9;
   --color-gray-200: #e2e8f0;
@@ -20,23 +20,17 @@
   --color-gray-900: #0f172a;
 }
 
-@keyframes orb-drift-1 {
-  0%   { transform: translate(0px, 0px) scale(1); }
-  33%  { transform: translate(60px, -40px) scale(1.08); }
-  66%  { transform: translate(-30px, 50px) scale(0.95); }
-  100% { transform: translate(0px, 0px) scale(1); }
+/* Blueprint architectural grid */
+.blueprint-bg {
+  background-color: #0C1628;
+  background-image:
+    linear-gradient(rgba(0,153,168,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,153,168,0.06) 1px, transparent 1px),
+    linear-gradient(rgba(0,153,168,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,153,168,0.025) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
 }
-@keyframes orb-drift-2 {
-  0%   { transform: translate(0px, 0px) scale(1); }
-  33%  { transform: translate(-50px, 40px) scale(1.05); }
-  66%  { transform: translate(40px, -30px) scale(0.97); }
-  100% { transform: translate(0px, 0px) scale(1); }
-}
-@keyframes orb-drift-3 {
-  0%   { transform: translate(0px, 0px) scale(1); }
-  50%  { transform: translate(30px, -60px) scale(1.1); }
-  100% { transform: translate(0px, 0px) scale(1); }
-}
+
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(32px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -55,21 +49,13 @@
 }
 @keyframes float-card {
   0%   { transform: translateY(0px) rotate(-1deg); }
-  50%  { transform: translateY(-12px) rotate(-1deg); }
+  50%  { transform: translateY(-10px) rotate(-1deg); }
   100% { transform: translateY(0px) rotate(-1deg); }
 }
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
   50%       { opacity: 0.5; transform: scale(0.8); }
 }
-@keyframes count-up {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.orb-1 { animation: orb-drift-1 18s ease-in-out infinite; }
-.orb-2 { animation: orb-drift-2 24s ease-in-out infinite; }
-.orb-3 { animation: orb-drift-3 14s ease-in-out infinite; }
 
 .animate-fade-up      { animation: fade-up 0.7s ease both; }
 .animate-fade-up-d1   { animation: fade-up 0.7s ease 0.1s both; }
@@ -82,17 +68,10 @@
 .animate-ticker       { animation: ticker 28s linear infinite; }
 
 .shimmer-text {
-  background: linear-gradient(90deg, #00D4AA 0%, #ffffff 40%, #00D4AA 60%, #33DDBB 100%);
+  background: linear-gradient(90deg, #0099A8 0%, #ffffff 45%, #0099A8 60%, #22B5C2 100%);
   background-size: 400px 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: shimmer 4s linear infinite;
-}
-
-.grid-bg {
-  background-image:
-    linear-gradient(rgba(0,212,170,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,212,170,0.04) 1px, transparent 1px);
-  background-size: 64px 64px;
+  animation: shimmer 5s linear infinite;
 }
