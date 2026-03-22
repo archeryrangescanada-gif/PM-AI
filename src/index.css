@@ -48,9 +48,9 @@
   100% { transform: translateX(-50%); }
 }
 @keyframes float-card {
-  0%   { transform: translateY(0px) rotate(-1deg); }
-  50%  { transform: translateY(-10px) rotate(-1deg); }
-  100% { transform: translateY(0px) rotate(-1deg); }
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 }
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
