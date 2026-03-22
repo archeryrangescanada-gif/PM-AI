@@ -19,8 +19,11 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/auth" element={<AuthPage />} />
+        <Route path="/tenant" element={<TenantDashboard />} />
         <Route path="/tenant/dashboard" element={<TenantDashboard />} />
+        <Route path="/landlord" element={<LandlordDashboard />} />
         <Route path="/landlord/dashboard" element={<LandlordDashboard />} />
+        <Route path="/provider" element={<ProviderDashboard />} />
         <Route path="/provider/dashboard" element={<ProviderDashboard />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
