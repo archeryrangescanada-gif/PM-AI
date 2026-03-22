@@ -79,8 +79,8 @@ export default function LandingPage() {
               <Wrench className="w-4 h-4" style={{ color: '#060D1A' }} />
             </div>
             <span className="text-xl font-bold">HROP</span>
-            <span className="px-2 py-0.5 text-xs font-bold rounded border" style={{ background: 'rgba(0,212,170,0.12)', color: '#00D4AA', borderColor: 'rgba(0,212,170,0.3)', letterSpacing: '0.06em' }}>
-              DURHAM REGION
+            <span className="px-3 py-1 text-xs font-black rounded-full border" style={{ background: 'rgba(0,212,170,0.15)', color: '#00D4AA', borderColor: 'rgba(0,212,170,0.4)', letterSpacing: '0.08em' }}>
+              ● DURHAM REGION LAUNCH
             </span>
           </div>
           <div className="hidden md:flex items-center gap-8">
@@ -301,19 +301,22 @@ export default function LandingPage() {
           </FadeUp>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { quote: 'I approved a plumbing request from my phone at 6 AM. By noon it was fixed. I never made a single call.', name: 'Sarah M.', loc: 'Oshawa · 12 units' },
-              { quote: 'Tenant messaged me at 11 PM about a furnace. I said use HROP. Handled by morning. I slept fine.', name: 'David K.', loc: 'Whitby · 3 properties' },
+              { quote: 'I approved a plumbing request from my phone at 6 AM. By noon it was fixed. I never made a single call.', name: 'Sarah M.', loc: 'Oshawa · Managing 12 units', img: 'SM' },
+              { quote: 'Tenant messaged me at 11 PM about a furnace. I said use HROP. Handled by morning. I slept fine.', name: 'David K.', loc: 'Whitby · 3 properties', img: 'DK' },
               { quote: 'The AI estimate was within $30 of the invoice. That kind of accuracy builds real trust.', name: 'Jennifer L.', loc: 'Ajax · Property Management Co.' },
-            ].map(({ quote, name, loc }, i) => (
+            ].map(({ quote, name, loc, img }, i) => (
               <FadeUp key={name} delay={i * 100}>
                 <div className="rounded-2xl p-8 border h-full transition-all hover:-translate-y-1 duration-300" style={{ background: '#0D1F35', borderColor: 'rgba(255,255,255,0.07)' }}>
                   <div className="flex gap-1 mb-4">
                     {[...Array(5)].map((_,j) => <Star key={j} className="w-4 h-4 fill-current" style={{ color: '#00D4AA' }} />)}
                   </div>
                   <p className="text-sm leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,0.78)' }}>"{quote}"</p>
-                  <div>
-                    <div className="font-bold text-sm text-white">{name}</div>
-                    <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.38)' }}>{loc}</div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0" style={{ background: 'rgba(0,212,170,0.2)', color: '#00D4AA', border: '1px solid rgba(0,212,170,0.3)' }}>{img}</div>
+                    <div>
+                      <div className="font-bold text-sm text-white">{name}</div>
+                      <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.38)' }}>{loc}</div>
+                    </div>
                   </div>
                 </div>
               </FadeUp>
@@ -330,7 +333,7 @@ export default function LandingPage() {
             <h2 className="font-black leading-tight" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)' }}>Simple pricing. No surprises.</h2>
             <p className="mt-4 text-lg" style={{ color: 'rgba(255,255,255,0.5)' }}>Start free. Pay only when it works.</p>
           </FadeUp>
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto" style={{ paddingTop: '20px' }}>
             {[
               { tier: 'BASIC', price: '$5', unit: '/door/month', desc: 'Small portfolios', features: ['Maintenance triage', 'Vendor routing', 'Tenant communication', 'Request tracking'], highlight: false },
               { tier: 'PRO', price: '$9', unit: '/door/month', desc: 'Most popular', features: ['Everything in Basic', 'AI cost estimates', 'Invoice processing', 'Vendor scores', 'Priority matching'], highlight: true },
@@ -385,21 +388,61 @@ export default function LandingPage() {
       </FadeUp>
 
       {/* Footer */}
-      <footer className="relative z-10 py-10 border-t" style={{ borderColor: 'rgba(255,255,255,0.07)' }}>
-        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: '#00D4AA' }}>
-              <Wrench className="w-3.5 h-3.5" style={{ color: '#060D1A' }} />
+      <footer className="relative z-10 border-t" style={{ borderColor: 'rgba(255,255,255,0.07)' }}>
+        <div className="container mx-auto px-6 py-12">
+          <div className="grid md:grid-cols-4 gap-10 mb-10">
+            {/* Brand */}
+            <div className="md:col-span-1">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: '#00D4AA' }}>
+                  <Wrench className="w-4 h-4" style={{ color: '#060D1A' }} />
+                </div>
+                <span className="font-bold text-lg text-white">HROP</span>
+              </div>
+              <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                Property maintenance, simplified. Connecting tenants, landlords, and service providers across Durham Region.
+              </p>
             </div>
-            <span className="font-bold text-white">HROP</span>
-            <span className="text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>— Fix It Fast</span>
+            {/* Product */}
+            <div>
+              <div className="text-xs font-bold tracking-widest mb-4" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em' }}>PRODUCT</div>
+              <ul className="space-y-2.5 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                <li><a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a></li>
+                <li><a href="#pricing" className="hover:text-white transition-colors">Pricing</a></li>
+                <li><Link to="/auth" className="hover:text-white transition-colors">Sign Up</Link></li>
+                <li><Link to="/auth" className="hover:text-white transition-colors">Sign In</Link></li>
+              </ul>
+            </div>
+            {/* Company */}
+            <div>
+              <div className="text-xs font-bold tracking-widest mb-4" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em' }}>COMPANY</div>
+              <ul className="space-y-2.5 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                <li><a href="#" className="hover:text-white transition-colors">About</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
+              </ul>
+            </div>
+            {/* Contact */}
+            <div>
+              <div className="text-xs font-bold tracking-widest mb-4" style={{ color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em' }}>CONTACT</div>
+              <ul className="space-y-2.5 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                <li><a href="mailto:hello@hrop.ca" className="hover:text-white transition-colors">hello@hrop.ca</a></li>
+                <li><span>Durham Region, ON</span></li>
+                <li className="flex items-center gap-3 pt-1">
+                  <a href="#" className="hover:text-white transition-colors" aria-label="Twitter/X">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                  </a>
+                  <a href="#" className="hover:text-white transition-colors" aria-label="LinkedIn">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div className="flex items-center gap-6 text-sm" style={{ color: 'rgba(255,255,255,0.35)' }}>
-            <a href="#" className="hover:text-white transition-colors">Privacy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms</a>
-            <a href="#" className="hover:text-white transition-colors">Contact</a>
+          <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-3" style={{ borderColor: 'rgba(255,255,255,0.07)' }}>
+            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.28)' }}>© 2026 HROP Inc. All rights reserved.</p>
+            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.28)' }}>Built in Durham Region 🇨🇦</p>
           </div>
-          <p className="text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>© 2026 HROP Inc.</p>
         </div>
       </footer>
     </div>
