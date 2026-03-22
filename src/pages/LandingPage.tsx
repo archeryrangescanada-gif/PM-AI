@@ -1,4 +1,4 @@
-// v2 navy theme
+// v3 env vars set
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { Wrench, ArrowRight, CheckCircle, Home, Building2, Star, Zap, Clock } from 'lucide-react';
