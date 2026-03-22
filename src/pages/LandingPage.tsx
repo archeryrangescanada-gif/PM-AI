@@ -79,9 +79,7 @@ export default function LandingPage() {
               <Wrench className="w-4 h-4" style={{ color: '#060D1A' }} />
             </div>
             <span className="text-xl font-bold">HROP</span>
-            <span className="px-3 py-1 text-xs font-black rounded-full border" style={{ background: 'rgba(0,212,170,0.15)', color: '#00D4AA', borderColor: 'rgba(0,212,170,0.4)', letterSpacing: '0.08em' }}>
-              ● DURHAM REGION LAUNCH
-            </span>
+
           </div>
           <div className="hidden md:flex items-center gap-8">
             {['How It Works', 'Pricing'].map(l => (
@@ -101,10 +99,7 @@ export default function LandingPage() {
       <section className="relative z-10 container mx-auto px-6 py-24 md:py-32">
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <div>
-            <div className="animate-fade-up inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-8 border" style={{ background: 'rgba(0,212,170,0.1)', borderColor: 'rgba(0,212,170,0.3)', color: '#00D4AA', letterSpacing: '0.06em' }}>
-              <span className="animate-pulse-dot w-1.5 h-1.5 rounded-full inline-block" style={{ background: '#00D4AA' }} />
-              NOW LIVE IN DURHAM REGION
-            </div>
+
             <h1 className="animate-fade-up-d1 font-black mb-6 leading-none tracking-tight" style={{ fontSize: 'clamp(3rem, 5vw, 4.5rem)' }}>
               Maintenance<br />
               <span className="shimmer-text">handled.</span><br />
