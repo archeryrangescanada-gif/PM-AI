@@ -9,6 +9,9 @@ import AuthPage from './pages/AuthPage';
 import TenantDashboard from './pages/TenantDashboard';
 import LandlordDashboard from './pages/LandlordDashboard';
 import ProviderDashboard from './pages/ProviderDashboard';
+import AboutPage from './pages/AboutPage';
+import PrivacyPage from './pages/PrivacyPage';
+import TermsPage from './pages/TermsPage';
 
 export default function App() {
   return (
@@ -19,6 +22,9 @@ export default function App() {
         <Route path="/tenant/dashboard" element={<TenantDashboard />} />
         <Route path="/landlord/dashboard" element={<LandlordDashboard />} />
         <Route path="/provider/dashboard" element={<ProviderDashboard />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
       </Routes>
     </BrowserRouter>
   );
