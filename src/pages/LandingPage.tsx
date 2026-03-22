@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import NetworkBackground from '../components/NetworkBackground';
 import { useEffect, useRef, useState } from 'react';
 import { Wrench, ArrowRight, CheckCircle, Home, Building2, Star, Zap, Clock } from 'lucide-react';
 
@@ -67,16 +66,15 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen grid-bg" style={{ background: '#060D1A', color: 'white' }}>
+    <div className="min-h-screen blueprint-bg" style={{ color: 'white' }}>
 
-      <NetworkBackground />
 
       {/* Sticky Nav */}
       <nav className="relative z-20 border-b sticky top-0" style={{ borderColor: 'rgba(255,255,255,0.06)', background: 'rgba(6,13,26,0.85)', backdropFilter: 'blur(16px)' }}>
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: '#00D4AA' }}>
-              <Wrench className="w-4 h-4" style={{ color: '#060D1A' }} />
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: '#0099A8' }}>
+              <Wrench className="w-4 h-4" style={{ color: '#0C1628' }} />
             </div>
             <span className="text-xl font-bold">HROP</span>
 
@@ -88,7 +86,7 @@ export default function LandingPage() {
           </div>
           <div className="flex items-center gap-3">
             <Link to="/auth" className="text-sm font-medium hover:text-white transition-colors" style={{ color: 'rgba(255,255,255,0.65)' }}>Sign In</Link>
-            <Link to="/auth" className="px-4 py-2 rounded-lg text-sm font-bold transition-all hover:opacity-90" style={{ background: '#00D4AA', color: '#060D1A' }}>
+            <Link to="/auth" className="px-4 py-2 rounded-lg text-sm font-bold transition-all hover:opacity-90" style={{ background: '#0099A8', color: '#0C1628' }}>
               Get Started Free
             </Link>
           </div>
@@ -110,7 +108,7 @@ export default function LandingPage() {
               HROP doesn't. Tenants report. AI analyzes. You approve once. Done.
             </p>
             <div className="animate-fade-up-d3 flex flex-col sm:flex-row gap-4">
-              <Link to="/auth" className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-base font-bold transition-all hover:opacity-90 hover:scale-105" style={{ background: '#00D4AA', color: '#060D1A' }}>
+              <Link to="/auth" className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-base font-bold transition-all hover:opacity-90 hover:scale-105" style={{ background: '#0099A8', color: '#0C1628' }}>
                 Start Free Trial <ArrowRight className="w-4 h-4" />
               </Link>
               <a href="#how-it-works" className="inline-flex items-center justify-center px-6 py-4 rounded-xl text-base font-semibold transition-all border hover:border-white/30" style={{ borderColor: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.8)' }}>
@@ -121,7 +119,7 @@ export default function LandingPage() {
 
           {/* Floating dashboard mockup */}
           <div className="animate-fade-in relative">
-            <div className="animate-float-card rounded-2xl overflow-hidden border shadow-2xl" style={{ background: '#0D1F35', borderColor: 'rgba(255,255,255,0.08)', boxShadow: '0 0 80px rgba(0,212,170,0.08)' }}>
+            <div className="animate-float-card rounded-2xl overflow-hidden border shadow-2xl" style={{ background: '#111F36', borderColor: 'rgba(255,255,255,0.08)', boxShadow: '0 0 80px rgba(0,212,170,0.08)' }}>
               <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: 'rgba(255,255,255,0.06)', background: 'rgba(0,0,0,0.2)' }}>
                 <div className="flex gap-1.5">
                   {['#ff5f57','#febc2e','#28c840'].map(c => <div key={c} className="w-3 h-3 rounded-full" style={{ background: c }} />)}
@@ -163,13 +161,13 @@ export default function LandingPage() {
                   </div>
                   {item.ai && (
                     <div className="flex gap-2 mb-3">
-                      <span className="px-2 py-0.5 text-xs rounded font-semibold" style={{ background: 'rgba(0,212,170,0.15)', color: '#00D4AA' }}>{item.ai}</span>
+                      <span className="px-2 py-0.5 text-xs rounded font-semibold" style={{ background: 'rgba(0,153,168,0.15)', color: '#0099A8' }}>{item.ai}</span>
                       <span className="px-2 py-0.5 text-xs rounded" style={{ background: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.55)' }}>{item.cat}</span>
                     </div>
                   )}
                   {item.actions && (
                     <div className="flex gap-2">
-                      <button className="flex-1 py-2 rounded-lg text-xs font-bold transition-all hover:opacity-90" style={{ background: '#00D4AA', color: '#060D1A' }}>✓ Approve</button>
+                      <button className="flex-1 py-2 rounded-lg text-xs font-bold transition-all hover:opacity-90" style={{ background: '#0099A8', color: '#0C1628' }}>✓ Approve</button>
                       <button className="flex-1 py-2 rounded-lg text-xs font-semibold border transition-all" style={{ borderColor: 'rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.65)' }}>Adjust</button>
                     </div>
                   )}
@@ -177,17 +175,17 @@ export default function LandingPage() {
               ))}
             </div>
             {/* Glow under card */}
-            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-16 blur-3xl opacity-20 rounded-full" style={{ background: '#00D4AA' }} />
+            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-16 blur-3xl opacity-20 rounded-full" style={{ background: '#0099A8' }} />
           </div>
         </div>
       </section>
 
       {/* Live ticker */}
-      <div className="relative z-10 overflow-hidden border-y py-3" style={{ borderColor: 'rgba(0,212,170,0.12)', background: 'rgba(0,212,170,0.04)' }}>
+      <div className="relative z-10 overflow-hidden border-y py-3" style={{ borderColor: 'rgba(0,153,168,0.12)', background: 'rgba(0,153,168,0.04)' }}>
         <div className="flex animate-ticker whitespace-nowrap">
           {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
             <span key={i} className="mx-8 text-sm font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>
-              <span style={{ color: '#00D4AA' }}>●</span> {item}
+              <span style={{ color: '#0099A8' }}>●</span> {item}
             </span>
           ))}
         </div>
@@ -204,7 +202,7 @@ export default function LandingPage() {
               { value: 12, suffix: '%', label: 'Fee on completed jobs only', pre: '' },
             ].map(({ value, suffix, label, pre }) => (
               <div key={label}>
-                <div className="text-4xl font-black mb-2" style={{ color: '#00D4AA' }}>
+                <div className="text-4xl font-black mb-2" style={{ color: '#0099A8' }}>
                   {pre === 'Free' ? 'Free' : pre === '< ' ? <>{'< '}<CountUp target={value} suffix={suffix} /></> : <CountUp target={value} suffix={suffix} />}
                 </div>
                 <div className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>{label}</div>
@@ -218,7 +216,7 @@ export default function LandingPage() {
       <section id="how-it-works" className="relative z-10 py-24">
         <div className="container mx-auto px-6">
           <FadeUp className="text-center mb-16">
-            <div className="text-xs font-bold tracking-widest mb-4" style={{ color: '#00D4AA', letterSpacing: '0.12em' }}>THE PROCESS</div>
+            <div className="text-xs font-bold tracking-widest mb-4" style={{ color: '#0099A8', letterSpacing: '0.12em' }}>THE PROCESS</div>
             <h2 className="font-black leading-none" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)' }}>
               From report to resolved.<br /><span className="shimmer-text">Automatically.</span>
             </h2>
@@ -236,15 +234,15 @@ export default function LandingPage() {
                 <div
                   className="rounded-2xl p-6 border h-full transition-all duration-500 cursor-default"
                   style={{
-                    background: activeStep === i ? 'rgba(0,212,170,0.1)' : '#0D1F35',
-                    borderColor: activeStep === i ? 'rgba(0,212,170,0.5)' : 'rgba(255,255,255,0.07)',
+                    background: activeStep === i ? 'rgba(0,153,168,0.1)' : '#111F36',
+                    borderColor: activeStep === i ? 'rgba(0,153,168,0.5)' : 'rgba(255,255,255,0.07)',
                     transform: activeStep === i ? 'translateY(-4px)' : 'translateY(0)',
                     boxShadow: activeStep === i ? '0 8px 40px rgba(0,212,170,0.12)' : 'none',
                   }}
                 >
-                  <div className="text-xs font-bold mb-4" style={{ color: activeStep === i ? '#00D4AA' : 'rgba(255,255,255,0.25)', letterSpacing: '0.06em' }}>{n}</div>
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 transition-all" style={{ background: activeStep === i ? 'rgba(0,212,170,0.25)' : 'rgba(0,212,170,0.12)' }}>
-                    <Icon className="w-5 h-5" style={{ color: '#00D4AA' }} />
+                  <div className="text-xs font-bold mb-4" style={{ color: activeStep === i ? '#0099A8' : 'rgba(255,255,255,0.25)', letterSpacing: '0.06em' }}>{n}</div>
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 transition-all" style={{ background: activeStep === i ? 'rgba(0,153,168,0.25)' : 'rgba(0,153,168,0.12)' }}>
+                    <Icon className="w-5 h-5" style={{ color: '#0099A8' }} />
                   </div>
                   <div className="font-bold text-white mb-1">{title}</div>
                   <div className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>{desc}</div>
@@ -259,7 +257,7 @@ export default function LandingPage() {
       <section className="relative z-10 py-24">
         <div className="container mx-auto px-6">
           <FadeUp className="text-center mb-16">
-            <div className="text-xs font-bold tracking-widest mb-4" style={{ color: '#00D4AA', letterSpacing: '0.12em' }}>WHO IT'S FOR</div>
+            <div className="text-xs font-bold tracking-widest mb-4" style={{ color: '#0099A8', letterSpacing: '0.12em' }}>WHO IT'S FOR</div>
             <h2 className="font-black leading-none" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)' }}>
               Built for everyone<br />in the loop.
             </h2>
@@ -271,9 +269,9 @@ export default function LandingPage() {
               { Icon: Wrench, label: 'SERVICE PROS', title: 'Steady work. Fast pay.', desc: 'Jobs come to you. Accept what fits your schedule. Get paid within 48 hours. Build your reputation.' },
             ].map(({ Icon, label, title, desc }, i) => (
               <FadeUp key={label} delay={i * 100}>
-                <div className="rounded-2xl p-8 border h-full transition-all hover:border-white/20 hover:-translate-y-1 duration-300" style={{ background: '#0D1F35', borderColor: 'rgba(255,255,255,0.07)' }}>
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-6" style={{ background: 'rgba(0,212,170,0.15)' }}>
-                    <Icon className="w-5 h-5" style={{ color: '#00D4AA' }} />
+                <div className="rounded-2xl p-8 border h-full transition-all hover:border-white/20 hover:-translate-y-1 duration-300" style={{ background: '#111F36', borderColor: 'rgba(255,255,255,0.07)' }}>
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-6" style={{ background: 'rgba(0,153,168,0.15)' }}>
+                    <Icon className="w-5 h-5" style={{ color: '#0099A8' }} />
                   </div>
                   <div className="text-xs font-bold tracking-widest mb-3" style={{ color: 'rgba(255,255,255,0.35)', letterSpacing: '0.1em' }}>{label}</div>
                   <h3 className="text-xl font-black text-white mb-3 leading-tight">{title}</h3>
@@ -289,7 +287,7 @@ export default function LandingPage() {
       <section className="relative z-10 py-24">
         <div className="container mx-auto px-6">
           <FadeUp className="text-center mb-16">
-            <div className="text-xs font-bold tracking-widest mb-4" style={{ color: '#00D4AA', letterSpacing: '0.12em' }}>WHAT THEY SAY</div>
+            <div className="text-xs font-bold tracking-widest mb-4" style={{ color: '#0099A8', letterSpacing: '0.12em' }}>WHAT THEY SAY</div>
             <h2 className="font-black leading-tight" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)' }}>
               Landlords love not thinking<br />about maintenance.
             </h2>
@@ -301,13 +299,13 @@ export default function LandingPage() {
               { quote: 'The AI estimate was within $30 of the invoice. That kind of accuracy builds real trust.', name: 'Jennifer L.', loc: 'Ajax · Property Management Co.' },
             ].map(({ quote, name, loc, img }, i) => (
               <FadeUp key={name} delay={i * 100}>
-                <div className="rounded-2xl p-8 border h-full transition-all hover:-translate-y-1 duration-300" style={{ background: '#0D1F35', borderColor: 'rgba(255,255,255,0.07)' }}>
+                <div className="rounded-2xl p-8 border h-full transition-all hover:-translate-y-1 duration-300" style={{ background: '#111F36', borderColor: 'rgba(255,255,255,0.07)' }}>
                   <div className="flex gap-1 mb-4">
-                    {[...Array(5)].map((_,j) => <Star key={j} className="w-4 h-4 fill-current" style={{ color: '#00D4AA' }} />)}
+                    {[...Array(5)].map((_,j) => <Star key={j} className="w-4 h-4 fill-current" style={{ color: '#0099A8' }} />)}
                   </div>
                   <p className="text-sm leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,0.78)' }}>"{quote}"</p>
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0" style={{ background: 'rgba(0,212,170,0.2)', color: '#00D4AA', border: '1px solid rgba(0,212,170,0.3)' }}>{img}</div>
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0" style={{ background: 'rgba(0,153,168,0.2)', color: '#0099A8', border: '1px solid rgba(0,212,170,0.3)' }}>{img}</div>
                     <div>
                       <div className="font-bold text-sm text-white">{name}</div>
                       <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.38)' }}>{loc}</div>
@@ -324,7 +322,7 @@ export default function LandingPage() {
       <section id="pricing" className="relative z-10 py-24">
         <div className="container mx-auto px-6">
           <FadeUp className="text-center mb-16">
-            <div className="text-xs font-bold tracking-widest mb-4" style={{ color: '#00D4AA', letterSpacing: '0.12em' }}>PRICING</div>
+            <div className="text-xs font-bold tracking-widest mb-4" style={{ color: '#0099A8', letterSpacing: '0.12em' }}>PRICING</div>
             <h2 className="font-black leading-tight" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)' }}>Simple pricing. No surprises.</h2>
             <p className="mt-4 text-lg" style={{ color: 'rgba(255,255,255,0.5)' }}>Start free. Pay only when it works.</p>
           </FadeUp>
@@ -335,23 +333,23 @@ export default function LandingPage() {
               { tier: 'ENTERPRISE', price: '$15+', unit: '/door/month', desc: 'Large portfolios', features: ['Everything in Pro', 'Custom integrations', 'Account manager', 'SLA guarantees', 'Volume pricing'], highlight: false },
             ].map(({ tier, price, unit, desc, features, highlight }, i) => (
               <FadeUp key={tier} delay={i * 100}>
-                <div className="rounded-2xl p-8 border relative h-full transition-all hover:-translate-y-1 duration-300" style={{ background: highlight ? 'rgba(0,212,170,0.06)' : '#0D1F35', borderColor: highlight ? 'rgba(0,212,170,0.4)' : 'rgba(255,255,255,0.07)', boxShadow: highlight ? '0 0 60px rgba(0,212,170,0.08)' : 'none' }}>
-                  {highlight && <div className="absolute left-1/2 -translate-x-1/2 -top-3.5 px-4 py-1 rounded-full text-xs font-black" style={{ background: '#00D4AA', color: '#060D1A', letterSpacing: '0.06em' }}>MOST POPULAR</div>}
+                <div className="rounded-2xl p-8 border relative h-full transition-all hover:-translate-y-1 duration-300" style={{ background: highlight ? 'rgba(0,153,168,0.06)' : '#111F36', borderColor: highlight ? 'rgba(0,153,168,0.4)' : 'rgba(255,255,255,0.07)', boxShadow: highlight ? '0 0 60px rgba(0,212,170,0.08)' : 'none' }}>
+                  {highlight && <div className="absolute left-1/2 -translate-x-1/2 -top-3.5 px-4 py-1 rounded-full text-xs font-black" style={{ background: '#0099A8', color: '#0C1628', letterSpacing: '0.06em' }}>MOST POPULAR</div>}
                   <div className="text-xs font-bold tracking-widest mb-4" style={{ color: 'rgba(255,255,255,0.35)', letterSpacing: '0.1em' }}>{tier}</div>
                   <div className="flex items-baseline gap-1 mb-1">
-                    <span className="font-black" style={{ fontSize: '3rem', color: highlight ? '#00D4AA' : 'white', lineHeight: 1 }}>{price}</span>
+                    <span className="font-black" style={{ fontSize: '3rem', color: highlight ? '#0099A8' : 'white', lineHeight: 1 }}>{price}</span>
                     <span className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>{unit}</span>
                   </div>
                   <div className="text-sm mb-6" style={{ color: 'rgba(255,255,255,0.45)' }}>{desc}</div>
                   <ul className="space-y-2.5 mb-8">
                     {features.map(f => (
                       <li key={f} className="flex items-center gap-2.5 text-sm" style={{ color: 'rgba(255,255,255,0.72)' }}>
-                        <CheckCircle className="w-4 h-4 flex-shrink-0" style={{ color: '#00D4AA' }} />
+                        <CheckCircle className="w-4 h-4 flex-shrink-0" style={{ color: '#0099A8' }} />
                         {f}
                       </li>
                     ))}
                   </ul>
-                  <Link to="/auth?signup=1" className="block w-full py-3.5 rounded-xl text-sm font-bold text-center transition-all hover:opacity-90" style={{ background: highlight ? '#00D4AA' : 'rgba(255,255,255,0.08)', color: highlight ? '#060D1A' : 'rgba(255,255,255,0.75)' }}>
+                  <Link to="/auth?signup=1" className="block w-full py-3.5 rounded-xl text-sm font-bold text-center transition-all hover:opacity-90" style={{ background: highlight ? '#0099A8' : 'rgba(255,255,255,0.08)', color: highlight ? '#0C1628' : 'rgba(255,255,255,0.75)' }}>
                     Start Free Trial
                   </Link>
                 </div>
@@ -374,7 +372,7 @@ export default function LandingPage() {
             <p className="text-lg mb-10" style={{ color: 'rgba(255,255,255,0.5)' }}>
               Join Durham Region property managers who actually sleep at night.
             </p>
-            <Link to="/auth" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-lg font-bold transition-all hover:opacity-90 hover:scale-105" style={{ background: '#00D4AA', color: '#060D1A' }}>
+            <Link to="/auth" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-lg font-bold transition-all hover:opacity-90 hover:scale-105" style={{ background: '#0099A8', color: '#0C1628' }}>
               Start Your 30-Day Free Trial <ArrowRight className="w-5 h-5" />
             </Link>
             <p className="mt-4 text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>No credit card · No commitment · Cancel anytime</p>
@@ -389,8 +387,8 @@ export default function LandingPage() {
             {/* Brand */}
             <div className="md:col-span-1">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: '#00D4AA' }}>
-                  <Wrench className="w-4 h-4" style={{ color: '#060D1A' }} />
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: '#0099A8' }}>
+                  <Wrench className="w-4 h-4" style={{ color: '#0C1628' }} />
                 </div>
                 <span className="font-bold text-lg text-white">HROP</span>
               </div>
