@@ -351,7 +351,7 @@ export default function LandingPage() {
                       </li>
                     ))}
                   </ul>
-                  <Link to="/auth" className="block w-full py-3.5 rounded-xl text-sm font-bold text-center transition-all hover:opacity-90" style={{ background: highlight ? '#00D4AA' : 'rgba(255,255,255,0.08)', color: highlight ? '#060D1A' : 'rgba(255,255,255,0.75)' }}>
+                  <Link to="/auth?signup=1" className="block w-full py-3.5 rounded-xl text-sm font-bold text-center transition-all hover:opacity-90" style={{ background: highlight ? '#00D4AA' : 'rgba(255,255,255,0.08)', color: highlight ? '#060D1A' : 'rgba(255,255,255,0.75)' }}>
                     Start Free Trial
                   </Link>
                 </div>
