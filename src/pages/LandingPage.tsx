@@ -1,7 +1,7 @@
 // v3 env vars set
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import { Wrench, ArrowRight, CheckCircle, Home, Building2, Star, Zap, Clock } from 'lucide-react';
+import { Wrench, ArrowRight, CheckCircle, Home, Star, Zap } from 'lucide-react';
 
 // Animate number counting up
 function CountUp({ target, suffix = '' }: { target: number; suffix?: string }) {
@@ -266,7 +266,7 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               { Icon: Home, label: 'TENANTS', title: 'Report it and forget it.', desc: 'Submit in 60 seconds. Upload a photo. Track progress in real time. Never chase anyone again.' },
-              { Icon: Building2, label: 'LANDLORDS', title: 'Approve once. We handle the rest.', desc: 'AI cost estimates. Vetted pros. Automatic invoicing. Stop managing maintenance. Start owning property.' },
+              { Icon: Home, label: 'LANDLORDS', title: 'Approve once. We handle the rest.', desc: 'AI cost estimates. Vetted pros. Automatic invoicing. Stop managing maintenance. Start owning property.' },
               { Icon: Wrench, label: 'SERVICE PROS', title: 'Steady work. Fast pay.', desc: 'Jobs come to you. Accept what fits your schedule. Get paid within 48 hours. Build your reputation.' },
             ].map(({ Icon, label, title, desc }, i) => (
               <FadeUp key={label} delay={i * 100}>
