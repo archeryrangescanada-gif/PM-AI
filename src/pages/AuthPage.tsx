@@ -79,19 +79,19 @@ export default function AuthPage() {
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6" style={{ background: '#060D1A' }}>
+    <div className="min-h-screen flex items-center justify-center px-6" style={{ background: '#0C1628' }}>
       {/* Floating orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl" style={{ background: '#00D4AA' }} />
-        <div className="absolute bottom-1/3 right-1/4 w-64 h-64 rounded-full opacity-8 blur-3xl" style={{ background: '#00D4AA' }} />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl" style={{ background: '#0099A8' }} />
+        <div className="absolute bottom-1/3 right-1/4 w-64 h-64 rounded-full opacity-8 blur-3xl" style={{ background: '#0099A8' }} />
       </div>
 
       <div className="relative z-10 w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-3">
-            <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(0,212,170,0.15)', border: '1px solid rgba(0,212,170,0.3)' }}>
-              <Wrench className="w-7 h-7" style={{ color: '#00D4AA' }} />
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(0,153,168,0.15)', border: '1px solid rgba(0,212,170,0.3)' }}>
+              <Wrench className="w-7 h-7" style={{ color: '#0099A8' }} />
             </div>
           </div>
           <h1 className="text-2xl font-bold text-white">HROP</h1>
@@ -99,7 +99,7 @@ export default function AuthPage() {
         </div>
 
         {/* Card */}
-        <div className="rounded-2xl p-8 border" style={{ background: '#0D1F35', borderColor: 'rgba(255,255,255,0.08)' }}>
+        <div className="rounded-2xl p-8 border" style={{ background: '#111F36', borderColor: 'rgba(255,255,255,0.08)' }}>
 
           {/* Role Select */}
           {mode === 'role-select' && (
@@ -113,12 +113,12 @@ export default function AuthPage() {
                     onClick={() => setSelectedRole(id)}
                     className="w-full flex items-center gap-4 p-4 rounded-xl text-left transition-all border"
                     style={{
-                      background: selectedRole === id ? 'rgba(0,212,170,0.12)' : 'rgba(255,255,255,0.04)',
-                      borderColor: selectedRole === id ? 'rgba(0,212,170,0.5)' : 'rgba(255,255,255,0.08)',
+                      background: selectedRole === id ? 'rgba(0,153,168,0.12)' : 'rgba(255,255,255,0.04)',
+                      borderColor: selectedRole === id ? 'rgba(0,153,168,0.5)' : 'rgba(255,255,255,0.08)',
                     }}
                   >
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(0,212,170,0.15)' }}>
-                      <Icon className="w-5 h-5" style={{ color: '#00D4AA' }} />
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(0,153,168,0.15)' }}>
+                      <Icon className="w-5 h-5" style={{ color: '#0099A8' }} />
                     </div>
                     <div>
                       <div className="text-sm font-semibold text-white">{label}</div>
@@ -132,8 +132,8 @@ export default function AuthPage() {
                 disabled={!selectedRole}
                 className="w-full py-3 rounded-xl text-sm font-semibold transition-all"
                 style={{
-                  background: selectedRole ? '#00D4AA' : 'rgba(255,255,255,0.1)',
-                  color: selectedRole ? '#060D1A' : 'rgba(255,255,255,0.3)',
+                  background: selectedRole ? '#0099A8' : 'rgba(255,255,255,0.1)',
+                  color: selectedRole ? '#0C1628' : 'rgba(255,255,255,0.3)',
                   cursor: selectedRole ? 'pointer' : 'not-allowed',
                 }}
               >
@@ -141,7 +141,7 @@ export default function AuthPage() {
               </button>
               <p className="text-center text-sm mt-4" style={{ color: 'rgba(255,255,255,0.4)' }}>
                 Already have an account?{' '}
-                <button onClick={() => setMode('signin')} style={{ color: '#00D4AA' }} className="hover:underline">
+                <button onClick={() => setMode('signin')} style={{ color: '#0099A8' }} className="hover:underline">
                   Sign in
                 </button>
               </p>
@@ -183,14 +183,14 @@ export default function AuthPage() {
                   type="submit"
                   disabled={loading}
                   className="w-full py-3 rounded-xl text-sm font-semibold transition-all hover:opacity-90"
-                  style={{ background: '#00D4AA', color: '#060D1A', opacity: loading ? 0.6 : 1 }}
+                  style={{ background: '#0099A8', color: '#0C1628', opacity: loading ? 0.6 : 1 }}
                 >
                   {loading ? 'Signing in...' : 'Sign In'}
                 </button>
               </form>
               <p className="text-center text-sm mt-4" style={{ color: 'rgba(255,255,255,0.4)' }}>
                 No account?{' '}
-                <button onClick={() => setMode('role-select')} style={{ color: '#00D4AA' }} className="hover:underline">
+                <button onClick={() => setMode('role-select')} style={{ color: '#0099A8' }} className="hover:underline">
                   Create one
                 </button>
               </p>
@@ -206,7 +206,7 @@ export default function AuthPage() {
                 </button>
                 <div>
                   <h2 className="text-xl font-bold text-white">Create account</h2>
-                  <p className="text-xs mt-0.5 capitalize" style={{ color: '#00D4AA' }}>
+                  <p className="text-xs mt-0.5 capitalize" style={{ color: '#0099A8' }}>
                     {selectedRole?.replace('_', ' ')}
                   </p>
                 </div>
@@ -264,14 +264,14 @@ export default function AuthPage() {
                   type="submit"
                   disabled={loading}
                   className="w-full py-3 rounded-xl text-sm font-semibold transition-all hover:opacity-90"
-                  style={{ background: '#00D4AA', color: '#060D1A', opacity: loading ? 0.6 : 1 }}
+                  style={{ background: '#0099A8', color: '#0C1628', opacity: loading ? 0.6 : 1 }}
                 >
                   {loading ? 'Creating account...' : 'Create Account'}
                 </button>
               </form>
               <p className="text-center text-sm mt-4" style={{ color: 'rgba(255,255,255,0.4)' }}>
                 Already have an account?{' '}
-                <button onClick={() => setMode('signin')} style={{ color: '#00D4AA' }} className="hover:underline">
+                <button onClick={() => setMode('signin')} style={{ color: '#0099A8' }} className="hover:underline">
                   Sign in
                 </button>
               </p>
