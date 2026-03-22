@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import NetworkBackground from '../components/NetworkBackground';
 import { useEffect, useRef, useState } from 'react';
 import { Wrench, ArrowRight, CheckCircle, Home, Building2, Star, Zap, Clock } from 'lucide-react';
 
@@ -68,12 +69,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen grid-bg" style={{ background: '#060D1A', color: 'white' }}>
 
-      {/* Drifting orbs */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="orb-1 absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full opacity-[0.07] blur-3xl" style={{ background: 'radial-gradient(circle, #00D4AA, transparent 70%)' }} />
-        <div className="orb-2 absolute bottom-1/4 right-1/6 w-[400px] h-[400px] rounded-full opacity-[0.06] blur-3xl" style={{ background: 'radial-gradient(circle, #00D4AA, transparent 70%)' }} />
-        <div className="orb-3 absolute top-2/3 left-1/2 w-[300px] h-[300px] rounded-full opacity-[0.05] blur-3xl" style={{ background: 'radial-gradient(circle, #33DDBB, transparent 70%)' }} />
-      </div>
+      <NetworkBackground />
 
       {/* Sticky Nav */}
       <nav className="relative z-20 border-b sticky top-0" style={{ borderColor: 'rgba(255,255,255,0.06)', background: 'rgba(6,13,26,0.85)', backdropFilter: 'blur(16px)' }}>
