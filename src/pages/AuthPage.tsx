@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { Wrench, Mail, Lock, User, Phone, Home, Shield, Users } from 'lucide-react';
 
@@ -8,7 +8,9 @@ type UserRole = 'tenant' | 'landlord' | 'service_provider';
 
 export default function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<AuthMode>('signin');
+  const location = useLocation();
+  const isSignup = new URLSearchParams(location.search).get('signup') === '1';
+  const [mode, setMode] = useState<AuthMode>(isSignup ? 'role-select' : 'signin');
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
