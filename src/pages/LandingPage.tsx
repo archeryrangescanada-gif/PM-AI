@@ -198,7 +198,7 @@ export default function LandingPage() {
 
 
       {/* How It Works - animated step highlight */}
-      <section id="how-it-works" className="relative z-10 py-24">
+      <section id="how-it-works" className="relative z-10 py-24" style={{ scrollMarginTop: '80px' }}>
         <div className="container mx-auto px-6">
           <FadeUp className="text-center mb-16">
             <div className="text-xs font-bold tracking-widest mb-4" style={{ color: '#0099A8', letterSpacing: '0.12em' }}>THE PROCESS</div>
@@ -304,7 +304,7 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="relative z-10 py-24">
+      <section id="pricing" className="relative z-10 py-24" style={{ scrollMarginTop: '80px' }}>
         <div className="container mx-auto px-6">
           <FadeUp className="text-center mb-16">
             <div className="text-xs font-bold tracking-widest mb-4" style={{ color: '#0099A8', letterSpacing: '0.12em' }}>PRICING</div>
