@@ -11,7 +11,10 @@ import {
   XCircle,
   Upload,
   LogOut,
-  Home
+  Home,
+  Loader2,
+  Star,
+  Wrench
 } from 'lucide-react';
 
 interface MaintenanceRequest {
@@ -29,6 +32,22 @@ interface MaintenanceRequest {
     address: string;
     city: string;
   };
+  job?: {
+    id: string;
+    status: string;
+  };
+}
+
+interface ProviderInfo {
+  tradeCategory: string;
+  estimatedArrival: string | null;
+  status: string;
+  providerAssigned: boolean;
+  businessName?: string;
+  serviceType?: string;
+  rating?: number;
+  totalJobs?: number;
+  maskedPhone?: string;
 }
 
 interface Property {
@@ -52,6 +71,8 @@ export default function TenantDashboard() {
   const [priority, setPriority] = useState('medium');
   const [photos, setPhotos] = useState<File[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [providerInfo, setProviderInfo] = useState<Record<string, ProviderInfo>>({});
+  const [providerLoading, setProviderLoading] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     loadDashboard();
@@ -73,21 +94,53 @@ export default function TenantDashboard() {
         setProperties(propertyTenants.map(pt => pt.property).filter(Boolean));
       }
 
-      // Load requests
+      // Load requests with linked jobs
       const { data: requestsData } = await supabase
         .from('maintenance_requests')
         .select(`
           *,
-          property:properties(address, city)
+          property:properties(address, city),
+          job:jobs(id, status)
         `)
         .eq('tenant_id', user.id)
         .order('created_at', { ascending: false });
 
-      setRequests(requestsData || []);
+      const reqs = (requestsData || []).map((r: any) => ({
+        ...r,
+        job: Array.isArray(r.job) ? r.job[0] : r.job,
+      }));
+      setRequests(reqs);
+
+      // Fetch provider info for requests that have jobs
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.access_token) {
+        for (const r of reqs) {
+          if (r.job?.id) {
+            fetchProviderInfo(r.job.id, session.access_token);
+          }
+        }
+      }
     } catch (error) {
       console.error('Error loading dashboard:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchProviderInfo = async (jobId: string, token: string) => {
+    setProviderLoading(prev => ({ ...prev, [jobId]: true }));
+    try {
+      const res = await fetch(`/api/get-job-provider?jobId=${jobId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setProviderInfo(prev => ({ ...prev, [jobId]: data }));
+      }
+    } catch (err) {
+      console.error('Error fetching provider info:', err);
+    } finally {
+      setProviderLoading(prev => ({ ...prev, [jobId]: false }));
     }
   };
 
@@ -473,6 +526,65 @@ export default function TenantDashboard() {
                       <span className="px-2 py-0.5 rounded text-xs font-semibold bg-[#0099A8] text-white">HPM Assessment</span>
                     </div>
                     <p className="text-sm text-blue-700">{request.ai_analysis}</p>
+                  </div>
+                )}
+
+                {/* Your Trade Pro Section */}
+                {request.job && (
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Wrench className="w-4 h-4 text-[#0099A8]" />
+                      <h4 className="text-sm font-semibold text-gray-900">Your Trade Pro</h4>
+                    </div>
+                    {providerLoading[request.job.id] ? (
+                      <div className="flex items-center gap-2 text-sm text-gray-500">
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Loading...
+                      </div>
+                    ) : providerInfo[request.job.id] ? (
+                      (() => {
+                        const info = providerInfo[request.job.id];
+                        if (['in_progress', 'completed'].includes(info.status) && info.businessName) {
+                          return (
+                            <div className="space-y-1">
+                              <p className="text-sm font-medium text-gray-900">{info.businessName}</p>
+                              <p className="text-sm text-gray-600 capitalize">{info.serviceType || info.tradeCategory}</p>
+                              {info.rating && (
+                                <div className="flex items-center gap-1">
+                                  <Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />
+                                  <span className="text-sm text-gray-700">{info.rating}</span>
+                                </div>
+                              )}
+                              {info.maskedPhone && (
+                                <p className="text-sm text-gray-500">{info.maskedPhone}</p>
+                              )}
+                            </div>
+                          );
+                        }
+                        if (info.providerAssigned && ['accepted'].includes(info.status)) {
+                          return (
+                            <div className="space-y-1">
+                              <p className="text-sm font-medium text-gray-700">Trade Pro Assigned</p>
+                              <p className="text-sm text-gray-500 capitalize">{info.tradeCategory}</p>
+                              {info.maskedPhone && (
+                                <p className="text-sm text-gray-400">{info.maskedPhone}</p>
+                              )}
+                            </div>
+                          );
+                        }
+                        return (
+                          <div className="flex items-center gap-2 text-sm text-gray-500">
+                            <Loader2 className="w-4 h-4 animate-spin text-[#0099A8]" />
+                            Matching your request to a verified Trade Pro...
+                          </div>
+                        );
+                      })()
+                    ) : (
+                      <div className="flex items-center gap-2 text-sm text-gray-500">
+                        <Loader2 className="w-4 h-4 animate-spin text-[#0099A8]" />
+                        Matching your request to a verified Trade Pro...
+                      </div>
+                    )}
                   </div>
                 )}
 

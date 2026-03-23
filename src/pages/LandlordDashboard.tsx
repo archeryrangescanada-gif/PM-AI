@@ -12,7 +12,10 @@ import {
   MapPin,
   Image as ImageIcon,
   LogOut,
-  UserPlus
+  UserPlus,
+  Loader2,
+  Star,
+  Wrench
 } from 'lucide-react';
 
 interface MaintenanceRequest {
@@ -35,6 +38,22 @@ interface MaintenanceRequest {
     address: string;
     city: string;
   };
+  job?: {
+    id: string;
+    status: string;
+  };
+}
+
+interface ProviderInfo {
+  tradeCategory: string;
+  estimatedArrival: string | null;
+  status: string;
+  providerAssigned: boolean;
+  businessName?: string;
+  serviceType?: string;
+  rating?: number;
+  totalJobs?: number;
+  maskedPhone?: string;
 }
 
 interface Property {
@@ -56,6 +75,8 @@ function LandlordDashboard() {
   const [showAddProperty, setShowAddProperty] = useState(false);
   const [showInviteTenant, setShowInviteTenant] = useState<string | null>(null);
   const [inviteEmail, setInviteEmail] = useState('');
+  const [providerInfo, setProviderInfo] = useState<Record<string, ProviderInfo>>({});
+  const [providerLoading, setProviderLoading] = useState<Record<string, boolean>>({});
 
   // Property form state
   const [address, setAddress] = useState('');
@@ -83,22 +104,54 @@ function LandlordDashboard() {
 
       setProperties(propertiesData || []);
 
-      // Load maintenance requests
+      // Load maintenance requests with linked jobs
       const { data: requestsData } = await supabase
         .from('maintenance_requests')
         .select(`
           *,
           tenant:profiles!maintenance_requests_tenant_id_fkey(full_name, phone),
-          property:properties(id, address, city)
+          property:properties(id, address, city),
+          job:jobs(id, status)
         `)
         .eq('landlord_id', user.id)
         .order('created_at', { ascending: false });
 
-      setRequests(requestsData || []);
+      const reqs = (requestsData || []).map((r: any) => ({
+        ...r,
+        job: Array.isArray(r.job) ? r.job[0] : r.job,
+      }));
+      setRequests(reqs);
+
+      // Fetch provider info for requests that have jobs
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.access_token) {
+        for (const r of reqs) {
+          if (r.job?.id) {
+            fetchProviderInfo(r.job.id, session.access_token);
+          }
+        }
+      }
     } catch (error) {
       console.error('Error loading dashboard:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchProviderInfo = async (jobId: string, token: string) => {
+    setProviderLoading(prev => ({ ...prev, [jobId]: true }));
+    try {
+      const res = await fetch(`/api/get-job-provider?jobId=${jobId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setProviderInfo(prev => ({ ...prev, [jobId]: data }));
+      }
+    } catch (err) {
+      console.error('Error fetching provider info:', err);
+    } finally {
+      setProviderLoading(prev => ({ ...prev, [jobId]: false }));
     }
   };
 
@@ -580,6 +633,38 @@ function LandlordDashboard() {
                       <span className="px-2 py-1 rounded text-xs font-semibold bg-blue-100 text-blue-700">
                         {request.status.replace('_', ' ').toUpperCase()}
                       </span>
+                      {/* Trade Pro Info */}
+                      {request.job && (
+                        <div className="mt-2 flex items-center gap-2">
+                          <Wrench className="w-3.5 h-3.5 text-[#0099A8]" />
+                          {providerLoading[request.job.id] ? (
+                            <span className="text-xs text-gray-500 flex items-center gap-1">
+                              <Loader2 className="w-3 h-3 animate-spin" /> Loading...
+                            </span>
+                          ) : providerInfo[request.job.id] ? (
+                            (() => {
+                              const info = providerInfo[request.job.id];
+                              if (['accepted', 'in_progress', 'completed'].includes(info.status) && info.businessName) {
+                                return (
+                                  <span className="text-xs text-gray-700">
+                                    {info.businessName} &middot; <span className="capitalize">{info.serviceType || info.tradeCategory}</span>
+                                    {info.rating ? <> &middot; <Star className="w-3 h-3 text-yellow-500 fill-yellow-500 inline" /> {info.rating}</> : null}
+                                  </span>
+                                );
+                              }
+                              return (
+                                <span className="text-xs text-gray-500 flex items-center gap-1">
+                                  <Loader2 className="w-3 h-3 animate-spin text-[#0099A8]" /> Finding Trade Pro for this job...
+                                </span>
+                              );
+                            })()
+                          ) : (
+                            <span className="text-xs text-gray-500 flex items-center gap-1">
+                              <Loader2 className="w-3 h-3 animate-spin text-[#0099A8]" /> Finding Trade Pro for this job...
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
                     {request.estimated_cost && (
                       <div className="text-right">
