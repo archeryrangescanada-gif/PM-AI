@@ -1,0 +1,26 @@
+export function HropLogo({ size = 32 }: { size?: number }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 64 64"
+      width={size}
+      height={size}
+      style={{ display: 'inline-block', flexShrink: 0 }}
+    >
+      <rect width="64" height="64" rx="12" fill="#0C1628"/>
+      <polygon points="32,8 56,28 8,28" fill="#0099A8"/>
+      <rect x="14" y="28" width="36" height="26" rx="2" fill="#0099A8" opacity="0.9"/>
+      <rect x="26" y="38" width="12" height="16" rx="2" fill="#0C1628"/>
+      <circle cx="46" cy="46" r="10" fill="#0C1628"/>
+      <circle cx="46" cy="46" r="9" fill="#00C49A"/>
+      <polyline
+        points="41,46 44.5,50 51,41"
+        fill="none"
+        stroke="white"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
