@@ -195,25 +195,7 @@ export default function LandingPage() {
       </div>
 
       {/* Stats */}
-      <FadeUp>
-        <section className="relative z-10 border-b py-16" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-          <div className="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {[
-              { value: 5, suffix: ' min', label: 'Avg response time', pre: '< ' },
-              { value: 94, suffix: '%', label: 'Resolved without a call', pre: '' },
-              { value: 0, suffix: '', label: 'Cost to tenants', pre: 'Free' },
-              { value: 12, suffix: '%', label: 'Fee on completed jobs only', pre: '' },
-            ].map(({ value, suffix, label, pre }) => (
-              <div key={label}>
-                <div className="text-4xl font-black mb-2" style={{ color: '#0099A8' }}>
-                  {pre === 'Free' ? 'Free' : pre === '< ' ? <>{'< '}<CountUp target={value} suffix={suffix} /></> : <CountUp target={value} suffix={suffix} />}
-                </div>
-                <div className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>{label}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-      </FadeUp>
+
 
       {/* How It Works - animated step highlight */}
       <section id="how-it-works" className="relative z-10 py-24">
@@ -327,13 +309,13 @@ export default function LandingPage() {
           <FadeUp className="text-center mb-16">
             <div className="text-xs font-bold tracking-widest mb-4" style={{ color: '#0099A8', letterSpacing: '0.12em' }}>PRICING</div>
             <h2 className="font-black leading-tight" style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)' }}>Simple pricing. No surprises.</h2>
-            <p className="mt-4 text-lg" style={{ color: 'rgba(255,255,255,0.5)' }}>Start free. Pay only when it works.</p>
+            <p className="mt-4 text-lg" style={{ color: 'rgba(255,255,255,0.5)' }}>Beta is free. Paid plans launch when the product is ready.</p>
           </FadeUp>
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto" style={{ paddingTop: '20px' }}>
             {[
-              { tier: 'BASIC', price: '$5', unit: '/door/month', desc: 'Small portfolios', features: ['Maintenance triage', 'Vendor routing', 'Tenant communication', 'Request tracking'], highlight: false },
-              { tier: 'PRO', price: '$9', unit: '/door/month', desc: 'Most popular', features: ['Everything in Basic', 'AI cost estimates', 'Invoice processing', 'Vendor scores', 'Priority matching'], highlight: true },
-              { tier: 'ENTERPRISE', price: '$15+', unit: '/door/month', desc: 'Large portfolios', features: ['Everything in Pro', 'Custom integrations', 'Account manager', 'SLA guarantees', 'Volume pricing'], highlight: false },
+              { tier: 'BASIC', price: '$5', unit: '/door/month', desc: 'Small portfolios', features: ['Maintenance request portal', 'Landlord approval flow', 'Tenant communication', 'Request tracking'], highlight: false },
+              { tier: 'PRO', price: '$9', unit: '/door/month', desc: 'Most popular', features: ['Everything in Basic', 'AI cost estimates', 'Automated invoicing', 'Verified provider network', 'Priority support'], highlight: true },
+              { tier: 'ENTERPRISE', price: '$15+', unit: '/door/month', desc: 'Large portfolios', features: ['Everything in Pro', 'Dedicated account manager', 'Bulk property onboarding', 'Volume pricing', 'Priority implementation'], highlight: false },
             ].map(({ tier, price, unit, desc, features, highlight }, i) => (
               <FadeUp key={tier} delay={i * 100}>
                 <div className="rounded-2xl p-8 border relative h-full transition-all hover:-translate-y-1 duration-300" style={{ background: highlight ? 'rgba(0,153,168,0.06)' : '#111F36', borderColor: highlight ? 'rgba(0,153,168,0.4)' : 'rgba(255,255,255,0.07)', boxShadow: highlight ? '0 0 60px rgba(0,212,170,0.08)' : 'none' }}>
@@ -360,7 +342,7 @@ export default function LandingPage() {
             ))}
           </div>
           <p className="text-center mt-8 text-sm" style={{ color: 'rgba(255,255,255,0.32)' }}>
-            Plus 12% commission on completed jobs. 30-day free trial, no credit card required.
+            Beta is completely free. Paid plans and commission model launch after beta.
           </p>
         </div>
       </section>
