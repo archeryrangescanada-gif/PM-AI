@@ -129,6 +129,9 @@ export default function TenantDashboard() {
       }
 
       // Create request
+      // Run AI analysis
+      const aiEstimate = await analyzeMaintenanceRequest(title, description, photoUrls);
+
       const { error } = await supabase
         .from('maintenance_requests')
         .insert({
@@ -137,10 +140,12 @@ export default function TenantDashboard() {
           landlord_id: propertyData.landlord_id,
           title,
           description,
-          category,
-          priority,
+          category: aiEstimate.category || category,
+          priority: aiEstimate.priority || priority,
           photos: photoUrls,
           status: 'pending',
+          ai_analysis: `${aiEstimate.analysis} Estimated time: ${aiEstimate.estimatedTime}.`,
+          estimated_cost: aiEstimate.estimatedCost,
         });
 
       if (error) throw error;
