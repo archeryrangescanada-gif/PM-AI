@@ -14,12 +14,16 @@
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <script>
-    // Unregister any cached service workers
+    // Force SW update and kill all caches
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(regs => {
-        regs.forEach(reg => reg.unregister());
+        regs.forEach(reg => reg.update().then(() => reg.unregister()));
       });
+      caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
     }
   </script>
 
