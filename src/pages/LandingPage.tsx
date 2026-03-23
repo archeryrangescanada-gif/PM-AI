@@ -48,14 +48,16 @@ function FadeUp({ children, delay = 0, className = '' }: { children: React.React
 }
 
 const TICKER_ITEMS = [
-  '✓ Leaky faucet fixed · Oshawa · $145',
-  '✓ HVAC filter replaced · Whitby · $89',
-  '✓ Door lock repaired · Ajax · $165',
-  '✓ Drywall patched · Pickering · $210',
-  '✓ Electrical outlet · Oshawa · $130',
-  '✓ Plumbing cleared · Durham · $175',
-  '✓ Window seal · Whitby · $95',
-  '✓ Furnace inspected · Ajax · $220',
+  '✓ Leaky faucet fixed · Toronto · $145',
+  '✓ HVAC filter replaced · Ottawa · $89',
+  '✓ Door lock repaired · Mississauga · $165',
+  '✓ Drywall patched · Hamilton · $210',
+  '✓ Electrical outlet · London · $130',
+  '✓ Plumbing cleared · Brampton · $175',
+  '✓ Window seal · Kitchener · $95',
+  '✓ Furnace inspected · Windsor · $220',
+  '✓ Appliance repair · Kingston · $155',
+  '✓ Roof leak patched · Barrie · $310',
 ];
 
 export default function LandingPage() {
@@ -131,14 +133,14 @@ export default function LandingPage() {
               {[
                 {
                   title: 'Leaky faucet — Unit 4B',
-                  sub: '4 min ago · 123 Main St',
+                  sub: '4 min ago · 123 King St, Toronto',
                   badge: 'URGENT', bg: 'rgba(239,68,68,0.18)', color: '#f87171', border: 'rgba(239,68,68,0.3)',
                   ai: 'AI: $120–180', cat: 'Plumbing',
                   actions: true,
                 },
                 {
                   title: 'HVAC filter — Unit 2A',
-                  sub: "Mike's HVAC · ETA 25 min",
+                  sub: "Pro HVAC Services · ETA 25 min",
                   badge: 'IN PROGRESS', bg: 'rgba(59,130,246,0.18)', color: '#60a5fa', border: 'rgba(59,130,246,0.3)',
                   actions: false,
                 },
