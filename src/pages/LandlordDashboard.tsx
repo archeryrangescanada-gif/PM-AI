@@ -88,12 +88,20 @@ function LandlordDashboard() {
 
   useEffect(() => {
     loadDashboard();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_OUT') {
+        navigate('/auth');
+      }
+    });
+
+    return () => { subscription.unsubscribe(); };
   }, []);
 
   const loadDashboard = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) { navigate('/auth'); return; }
 
       // Load properties
       const { data: propertiesData } = await supabase
