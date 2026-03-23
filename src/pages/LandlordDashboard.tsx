@@ -111,7 +111,7 @@ export default function LandlordDashboard() {
           state,
           zip_code: zipCode,
           property_type: propertyType,
-          units,
+          units: parseInt(String(units)) || 1,
         });
 
       if (error) throw error;
@@ -325,7 +325,7 @@ export default function LandlordDashboard() {
                     <input
                       type="number"
                       value={units}
-                      onChange={(e) => setUnits(parseInt(e.target.value))}
+                      onChange={(e) => setUnits(parseInt(e.target.value) || 1)}
                       min="1"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
                       required
