@@ -35,11 +35,6 @@ export default function AuthPage() {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-      if (!data.user.email_confirmed_at) {
-        setError('Please verify your email first. Check your inbox for the verification link.');
-        await supabase.auth.signOut();
-        return;
-      }
       const { data: profile } = await supabase
         .from('profiles')
         .select('role')
@@ -68,7 +63,18 @@ export default function AuthPage() {
         }
       });
       if (error) throw error;
-      if (data.user) setMode('verify');
+      if (data.user) {
+        setMode('verify');
+        try {
+          await fetch('/api/send-welcome-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, fullName, role: selectedRole }),
+          });
+        } catch (emailErr) {
+          console.error('Welcome email failed (non-blocking):', emailErr);
+        }
+      }
     } catch (err: any) {
       setError(err.message || 'Failed to create account');
     } finally {
@@ -82,7 +88,7 @@ export default function AuthPage() {
   const roles: { id: UserRole; label: string; desc: string; Icon: typeof Home }[] = [
     { id: 'tenant', label: 'Tenant', desc: 'Submit and track maintenance requests', Icon: Home },
     { id: 'landlord', label: 'Landlord', desc: 'Manage properties and approve work', Icon: Shield },
-    { id: 'service_provider', label: 'Service Provider', desc: 'Find jobs and earn money', Icon: Users },
+    { id: 'service_provider', label: 'Trade Pro', desc: 'Find jobs and get paid fast', Icon: Users },
   ];
 
   return (
