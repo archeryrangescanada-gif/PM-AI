@@ -43,7 +43,8 @@ interface Property {
   units: number;
 }
 
-export default function LandlordDashboard() {
+export default // build:1774227271
+function LandlordDashboard() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [requests, setRequests] = useState<MaintenanceRequest[]>([]);
   const [selectedRequest, setSelectedRequest] = useState<MaintenanceRequest | null>(null);
