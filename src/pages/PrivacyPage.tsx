@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Wrench } from 'lucide-react';
+
 
 export default function PrivacyPage() {
   return (
