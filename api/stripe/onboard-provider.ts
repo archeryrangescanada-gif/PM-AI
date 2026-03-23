@@ -70,8 +70,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Generate onboarding link
     const accountLink = await stripe.accountLinks.create({
       account: account.id,
-      refresh_url: "https://pm-ai-nine.vercel.app/provider?stripe_refresh=true",
-      return_url: "https://pm-ai-nine.vercel.app/provider?stripe_return=true",
+      refresh_url: `${process.env.APP_URL || "https://hrop.ca"}/provider?stripe_refresh=true`,
+      return_url: `${process.env.APP_URL || "https://hrop.ca"}/provider?stripe_return=true`,
       type: "account_onboarding",
     });
 
