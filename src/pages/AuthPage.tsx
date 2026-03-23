@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { Wrench, Mail, Lock, User, Phone, Home, Shield, Users } from 'lucide-react';
 
-type AuthMode = 'signin' | 'signup' | 'role-select';
+type AuthMode = 'signin' | 'signup' | 'role-select' | 'verify';
 type UserRole = 'tenant' | 'landlord' | 'service_provider';
 
 export default function AuthPage() {
@@ -34,6 +34,11 @@ export default function AuthPage() {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
+      if (!data.user.email_confirmed_at) {
+        setError('Please verify your email first. Check your inbox for the verification link.');
+        await supabase.auth.signOut();
+        return;
+      }
       const { data: profile } = await supabase
         .from('profiles')
         .select('role')
@@ -57,11 +62,12 @@ export default function AuthPage() {
         email,
         password,
         options: {
+          emailRedirectTo: 'https://hrop.ca/auth',
           data: { full_name: fullName, phone, role: selectedRole }
         }
       });
       if (error) throw error;
-      if (data.user) navigateByRole(selectedRole);
+      if (data.user) setMode('verify');
     } catch (err: any) {
       setError(err.message || 'Failed to create account');
     } finally {
@@ -146,6 +152,30 @@ export default function AuthPage() {
                 </button>
               </p>
             </>
+          )}
+
+          {/* Verify Email Wall */}
+          {mode === 'verify' && (
+            <div className="text-center py-2">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: 'rgba(0,153,168,0.15)' }}>
+                <Mail className="w-8 h-8" style={{ color: '#0099A8' }} />
+              </div>
+              <h2 className="text-xl font-bold text-white mb-2">Check your email</h2>
+              <p className="text-sm mb-1" style={{ color: 'rgba(255,255,255,0.55)' }}>We sent a verification link to</p>
+              <p className="text-sm font-bold mb-6" style={{ color: '#0099A8' }}>{email}</p>
+              <div className="rounded-xl p-4 mb-6 text-left" style={{ background: 'rgba(0,153,168,0.08)', border: '1px solid rgba(0,153,168,0.2)' }}>
+                <p className="text-xs font-semibold mb-2 text-white">What to do next:</p>
+                <ol className="text-xs space-y-1.5 list-none p-0 m-0" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                  <li>1. Open the email from <strong style={{ color: 'white' }}>noreply@hrop.ca</strong></li>
+                  <li>2. Click <strong style={{ color: 'white' }}>Confirm your email</strong></li>
+                  <li>3. You'll be signed in automatically</li>
+                </ol>
+              </div>
+              <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                Didn't get it? Check spam or{' '}
+                <button onClick={() => setMode('signup')} style={{ color: '#0099A8' }} className="hover:underline">try again</button>
+              </p>
+            </div>
           )}
 
           {/* Sign In */}
