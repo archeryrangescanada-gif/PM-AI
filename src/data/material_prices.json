@@ -1,0 +1,765 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "lastUpdated": "2026-03-23",
+    "currency": "CAD",
+    "note": "Prices from Home Depot Canada / Rona+ / Canadian Tire. Add 15% sourcing markup before quoting."
+  },
+  "plumbing": {
+    "faucets_fixtures": [
+      {
+        "item": "Ball valve 1/2\"",
+        "sku": "HDC-BV12",
+        "store": "Home Depot",
+        "price": 12.97,
+        "unit": "each"
+      },
+      {
+        "item": "Ball valve 3/4\"",
+        "sku": "HDC-BV34",
+        "store": "Home Depot",
+        "price": 16.47,
+        "unit": "each"
+      },
+      {
+        "item": "Shut-off valve 1/2\" compression",
+        "sku": "HDC-SOV12",
+        "store": "Home Depot",
+        "price": 8.97,
+        "unit": "each"
+      },
+      {
+        "item": "Faucet cartridge (generic)",
+        "sku": "HDC-FC01",
+        "store": "Home Depot",
+        "price": 14.97,
+        "unit": "each"
+      },
+      {
+        "item": "Faucet aerator",
+        "sku": "HDC-FA01",
+        "store": "Home Depot",
+        "price": 4.97,
+        "unit": "each"
+      },
+      {
+        "item": "Fill valve (toilet)",
+        "sku": "HDC-FV01",
+        "store": "Home Depot",
+        "price": 18.97,
+        "unit": "each"
+      },
+      {
+        "item": "Flapper valve (toilet)",
+        "sku": "HDC-FL01",
+        "store": "Home Depot",
+        "price": 5.97,
+        "unit": "each"
+      },
+      {
+        "item": "Toilet flush valve complete kit",
+        "sku": "HDC-FVK01",
+        "store": "Home Depot",
+        "price": 32.97,
+        "unit": "each"
+      },
+      {
+        "item": "Wax ring (toilet)",
+        "sku": "HDC-WR01",
+        "store": "Home Depot",
+        "price": 7.97,
+        "unit": "each"
+      },
+      {
+        "item": "P-trap 1-1/2\" PVC",
+        "sku": "HDC-PT01",
+        "store": "Home Depot",
+        "price": 8.47,
+        "unit": "each"
+      },
+      {
+        "item": "P-trap 1-1/4\" PVC",
+        "sku": "HDC-PT02",
+        "store": "Home Depot",
+        "price": 7.97,
+        "unit": "each"
+      }
+    ],
+    "pipe_fittings": [
+      {
+        "item": "PEX pipe 1/2\" (per foot)",
+        "sku": "HDC-PEX12",
+        "store": "Home Depot",
+        "price": 0.89,
+        "unit": "ft"
+      },
+      {
+        "item": "PEX pipe 3/4\" (per foot)",
+        "sku": "HDC-PEX34",
+        "store": "Home Depot",
+        "price": 1.19,
+        "unit": "ft"
+      },
+      {
+        "item": "Copper pipe 1/2\" (per foot)",
+        "sku": "HDC-CU12",
+        "store": "Home Depot",
+        "price": 3.47,
+        "unit": "ft"
+      },
+      {
+        "item": "PVC drain pipe 1-1/2\" (per foot)",
+        "sku": "HDC-PVC15",
+        "store": "Home Depot",
+        "price": 1.29,
+        "unit": "ft"
+      },
+      {
+        "item": "SharkBite coupling 1/2\"",
+        "sku": "HDC-SB12",
+        "store": "Home Depot",
+        "price": 8.97,
+        "unit": "each"
+      },
+      {
+        "item": "SharkBite coupling 3/4\"",
+        "sku": "HDC-SB34",
+        "store": "Home Depot",
+        "price": 11.47,
+        "unit": "each"
+      },
+      {
+        "item": "Teflon tape",
+        "sku": "HDC-TT01",
+        "store": "Home Depot",
+        "price": 2.47,
+        "unit": "roll"
+      },
+      {
+        "item": "Plumbers putty",
+        "sku": "HDC-PP01",
+        "store": "Home Depot",
+        "price": 4.97,
+        "unit": "tub"
+      }
+    ],
+    "drain_clearing": [
+      {
+        "item": "Drain snake (manual 25ft)",
+        "sku": "HDC-DS25",
+        "store": "Home Depot",
+        "price": 34.97,
+        "unit": "each"
+      },
+      {
+        "item": "Enzyme drain cleaner (1L)",
+        "sku": "HDC-EDC01",
+        "store": "Home Depot",
+        "price": 12.97,
+        "unit": "bottle"
+      }
+    ],
+    "water_heater": [
+      {
+        "item": "Anode rod (magnesium)",
+        "sku": "HDC-AR01",
+        "store": "Home Depot",
+        "price": 21.97,
+        "unit": "each"
+      },
+      {
+        "item": "Pressure relief valve 3/4\"",
+        "sku": "HDC-PRV01",
+        "store": "Home Depot",
+        "price": 24.97,
+        "unit": "each"
+      },
+      {
+        "item": "Water heater element (240V)",
+        "sku": "HDC-WHE01",
+        "store": "Home Depot",
+        "price": 18.97,
+        "unit": "each"
+      }
+    ]
+  },
+  "electrical": {
+    "outlets_switches": [
+      {
+        "item": "Standard outlet 15A duplex",
+        "sku": "HDC-OUT15",
+        "store": "Home Depot",
+        "price": 2.97,
+        "unit": "each"
+      },
+      {
+        "item": "GFCI outlet 15A (white)",
+        "sku": "HDC-GFCI15",
+        "store": "Home Depot",
+        "price": 21.97,
+        "unit": "each"
+      },
+      {
+        "item": "AFCI outlet 15A",
+        "sku": "HDC-AFCI15",
+        "store": "Home Depot",
+        "price": 44.97,
+        "unit": "each"
+      },
+      {
+        "item": "Single pole switch 15A",
+        "sku": "HDC-SW15",
+        "store": "Home Depot",
+        "price": 3.47,
+        "unit": "each"
+      },
+      {
+        "item": "3-way switch 15A",
+        "sku": "HDC-3W15",
+        "store": "Home Depot",
+        "price": 6.97,
+        "unit": "each"
+      },
+      {
+        "item": "Dimmer switch (incandescent)",
+        "sku": "HDC-DIM01",
+        "store": "Home Depot",
+        "price": 14.97,
+        "unit": "each"
+      },
+      {
+        "item": "Dimmer switch (LED compatible)",
+        "sku": "HDC-DIML01",
+        "store": "Home Depot",
+        "price": 24.97,
+        "unit": "each"
+      },
+      {
+        "item": "Outlet cover plate (white)",
+        "sku": "HDC-OCP01",
+        "store": "Home Depot",
+        "price": 0.97,
+        "unit": "each"
+      }
+    ],
+    "breakers_panel": [
+      {
+        "item": "15A single pole breaker (Square D)",
+        "sku": "HDC-BR15",
+        "store": "Home Depot",
+        "price": 12.97,
+        "unit": "each"
+      },
+      {
+        "item": "20A single pole breaker (Square D)",
+        "sku": "HDC-BR20",
+        "store": "Home Depot",
+        "price": 14.97,
+        "unit": "each"
+      },
+      {
+        "item": "15A AFCI breaker",
+        "sku": "HDC-AFCIBR15",
+        "store": "Home Depot",
+        "price": 44.97,
+        "unit": "each"
+      },
+      {
+        "item": "15A GFCI breaker",
+        "sku": "HDC-GFCIBR15",
+        "store": "Home Depot",
+        "price": 37.97,
+        "unit": "each"
+      },
+      {
+        "item": "Double pole 30A breaker",
+        "sku": "HDC-DP30",
+        "store": "Home Depot",
+        "price": 24.97,
+        "unit": "each"
+      }
+    ],
+    "wire_conduit": [
+      {
+        "item": "14/2 NMD90 wire (per foot)",
+        "sku": "HDC-NMD142",
+        "store": "Home Depot",
+        "price": 0.79,
+        "unit": "ft"
+      },
+      {
+        "item": "12/2 NMD90 wire (per foot)",
+        "sku": "HDC-NMD122",
+        "store": "Home Depot",
+        "price": 0.99,
+        "unit": "ft"
+      },
+      {
+        "item": "Junction box plastic (single gang)",
+        "sku": "HDC-JB01",
+        "store": "Home Depot",
+        "price": 1.47,
+        "unit": "each"
+      },
+      {
+        "item": "Junction box (4\" square)",
+        "sku": "HDC-JB4",
+        "store": "Home Depot",
+        "price": 3.97,
+        "unit": "each"
+      },
+      {
+        "item": "Wire connectors assorted (100pk)",
+        "sku": "HDC-WC100",
+        "store": "Home Depot",
+        "price": 8.97,
+        "unit": "pack"
+      }
+    ],
+    "lighting": [
+      {
+        "item": "LED bulb 60W equiv A19",
+        "sku": "HDC-LED60",
+        "store": "Home Depot",
+        "price": 3.97,
+        "unit": "each"
+      },
+      {
+        "item": "LED pot light 6\" recessed",
+        "sku": "HDC-POT6",
+        "store": "Home Depot",
+        "price": 24.97,
+        "unit": "each"
+      },
+      {
+        "item": "Ceiling light fixture (basic)",
+        "sku": "HDC-CLF01",
+        "store": "Home Depot",
+        "price": 34.97,
+        "unit": "each"
+      },
+      {
+        "item": "Smoke detector (battery)",
+        "sku": "HDC-SD01",
+        "store": "Home Depot",
+        "price": 19.97,
+        "unit": "each"
+      },
+      {
+        "item": "CO detector (battery)",
+        "sku": "HDC-CO01",
+        "store": "Home Depot",
+        "price": 29.97,
+        "unit": "each"
+      },
+      {
+        "item": "Smoke/CO combo detector",
+        "sku": "HDC-SDCO01",
+        "store": "Home Depot",
+        "price": 39.97,
+        "unit": "each"
+      }
+    ]
+  },
+  "hvac": {
+    "filters": [
+      {
+        "item": "Furnace filter 16x20x1 MERV8",
+        "sku": "HDC-FF16201",
+        "store": "Home Depot",
+        "price": 8.97,
+        "unit": "each"
+      },
+      {
+        "item": "Furnace filter 16x25x1 MERV8",
+        "sku": "HDC-FF16251",
+        "store": "Home Depot",
+        "price": 9.97,
+        "unit": "each"
+      },
+      {
+        "item": "Furnace filter 20x25x1 MERV8",
+        "sku": "HDC-FF20251",
+        "store": "Home Depot",
+        "price": 10.97,
+        "unit": "each"
+      },
+      {
+        "item": "Furnace filter 16x20x4 MERV11",
+        "sku": "HDC-FF16204",
+        "store": "Home Depot",
+        "price": 29.97,
+        "unit": "each"
+      },
+      {
+        "item": "Furnace filter 16x25x4 MERV11",
+        "sku": "HDC-FF16254",
+        "store": "Home Depot",
+        "price": 32.97,
+        "unit": "each"
+      }
+    ],
+    "thermostats": [
+      {
+        "item": "Programmable thermostat (basic)",
+        "sku": "HDC-THERM01",
+        "store": "Home Depot",
+        "price": 34.97,
+        "unit": "each"
+      },
+      {
+        "item": "Smart thermostat (Ecobee)",
+        "sku": "HDC-ECO01",
+        "store": "Home Depot",
+        "price": 199.0,
+        "unit": "each"
+      },
+      {
+        "item": "Smart thermostat (Google Nest)",
+        "sku": "HDC-NEST01",
+        "store": "Home Depot",
+        "price": 179.0,
+        "unit": "each"
+      }
+    ],
+    "parts": [
+      {
+        "item": "Igniter (furnace)",
+        "sku": "HDC-IGN01",
+        "store": "Home Depot",
+        "price": 34.97,
+        "unit": "each"
+      },
+      {
+        "item": "Flame sensor rod",
+        "sku": "HDC-FSR01",
+        "store": "Home Depot",
+        "price": 14.97,
+        "unit": "each"
+      },
+      {
+        "item": "Capacitor (AC unit - generic)",
+        "sku": "HDC-CAP01",
+        "store": "Home Depot",
+        "price": 24.97,
+        "unit": "each"
+      },
+      {
+        "item": "Blower motor belt",
+        "sku": "HDC-BMB01",
+        "store": "Home Depot",
+        "price": 8.97,
+        "unit": "each"
+      },
+      {
+        "item": "Duct tape (foil)",
+        "sku": "HDC-DT01",
+        "store": "Home Depot",
+        "price": 12.97,
+        "unit": "roll"
+      },
+      {
+        "item": "Flexible duct connector 6\"",
+        "sku": "HDC-FDC6",
+        "store": "Home Depot",
+        "price": 16.97,
+        "unit": "each"
+      },
+      {
+        "item": "Refrigerant R-410A (per lb)",
+        "sku": "HDC-R410",
+        "store": "HVAC supply",
+        "price": 18.0,
+        "unit": "lb",
+        "note": "Tech supply only - TSSA certified required"
+      }
+    ]
+  },
+  "structural": {
+    "drywall": [
+      {
+        "item": "Drywall 4x8 1/2\" sheet",
+        "sku": "HDC-DW48",
+        "store": "Home Depot",
+        "price": 18.97,
+        "unit": "sheet"
+      },
+      {
+        "item": "Joint compound (4.5L)",
+        "sku": "HDC-JC45",
+        "store": "Home Depot",
+        "price": 14.97,
+        "unit": "pail"
+      },
+      {
+        "item": "Mesh drywall tape (75ft)",
+        "sku": "HDC-DWT75",
+        "store": "Home Depot",
+        "price": 6.97,
+        "unit": "roll"
+      },
+      {
+        "item": "Drywall screws 1-5/8\" (1lb)",
+        "sku": "HDC-DWS1",
+        "store": "Home Depot",
+        "price": 5.97,
+        "unit": "box"
+      },
+      {
+        "item": "Drywall patch kit (6\")",
+        "sku": "HDC-DWP6",
+        "store": "Home Depot",
+        "price": 12.97,
+        "unit": "kit"
+      },
+      {
+        "item": "Corner bead (8ft metal)",
+        "sku": "HDC-CB8",
+        "store": "Home Depot",
+        "price": 3.47,
+        "unit": "each"
+      }
+    ],
+    "doors_windows": [
+      {
+        "item": "Door knob (keyed entry)",
+        "sku": "HDC-DK01",
+        "store": "Home Depot",
+        "price": 34.97,
+        "unit": "each"
+      },
+      {
+        "item": "Deadbolt (single cylinder)",
+        "sku": "HDC-DB01",
+        "store": "Home Depot",
+        "price": 44.97,
+        "unit": "each"
+      },
+      {
+        "item": "Door hinge 3.5\" (pair)",
+        "sku": "HDC-DH35",
+        "store": "Home Depot",
+        "price": 7.97,
+        "unit": "pair"
+      },
+      {
+        "item": "Door closer (commercial grade)",
+        "sku": "HDC-DC01",
+        "store": "Home Depot",
+        "price": 34.97,
+        "unit": "each"
+      },
+      {
+        "item": "Weatherstripping door (foam)",
+        "sku": "HDC-WS01",
+        "store": "Home Depot",
+        "price": 8.97,
+        "unit": "roll"
+      },
+      {
+        "item": "Window lock sash lift",
+        "sku": "HDC-WL01",
+        "store": "Home Depot",
+        "price": 6.97,
+        "unit": "each"
+      },
+      {
+        "item": "Window screen repair kit",
+        "sku": "HDC-WSR01",
+        "store": "Home Depot",
+        "price": 12.97,
+        "unit": "kit"
+      }
+    ],
+    "flooring": [
+      {
+        "item": "Laminate flooring (per sq ft)",
+        "sku": "HDC-LAM01",
+        "store": "Home Depot",
+        "price": 2.49,
+        "unit": "sq ft"
+      },
+      {
+        "item": "Vinyl plank flooring (per sq ft)",
+        "sku": "HDC-VPL01",
+        "store": "Home Depot",
+        "price": 2.99,
+        "unit": "sq ft"
+      },
+      {
+        "item": "Underlayment foam (per sq ft)",
+        "sku": "HDC-UF01",
+        "store": "Home Depot",
+        "price": 0.39,
+        "unit": "sq ft"
+      },
+      {
+        "item": "Transition strip (36\")",
+        "sku": "HDC-TS36",
+        "store": "Home Depot",
+        "price": 14.97,
+        "unit": "each"
+      },
+      {
+        "item": "Floor leveler (50lb bag)",
+        "sku": "HDC-FL50",
+        "store": "Home Depot",
+        "price": 34.97,
+        "unit": "bag"
+      }
+    ],
+    "caulk_sealant": [
+      {
+        "item": "Silicone caulk (white)",
+        "sku": "HDC-SC01",
+        "store": "Home Depot",
+        "price": 7.97,
+        "unit": "tube"
+      },
+      {
+        "item": "Latex caulk paintable",
+        "sku": "HDC-LC01",
+        "store": "Home Depot",
+        "price": 5.97,
+        "unit": "tube"
+      },
+      {
+        "item": "Grout (white, 10lb)",
+        "sku": "HDC-GR10",
+        "store": "Home Depot",
+        "price": 14.97,
+        "unit": "bag"
+      },
+      {
+        "item": "Tile adhesive (premixed, 15lb)",
+        "sku": "HDC-TA15",
+        "store": "Home Depot",
+        "price": 19.97,
+        "unit": "pail"
+      }
+    ]
+  },
+  "pest_control": [
+    {
+      "item": "Mouse trap (6pk)",
+      "sku": "CT-MT6",
+      "store": "Canadian Tire",
+      "price": 8.97,
+      "unit": "pack"
+    },
+    {
+      "item": "Glue trap rodent (4pk)",
+      "sku": "CT-GT4",
+      "store": "Canadian Tire",
+      "price": 9.97,
+      "unit": "pack"
+    },
+    {
+      "item": "Bait station (mouse)",
+      "sku": "CT-BS01",
+      "store": "Canadian Tire",
+      "price": 14.97,
+      "unit": "each"
+    },
+    {
+      "item": "Cockroach gel bait (30g)",
+      "sku": "CT-CGB30",
+      "store": "Canadian Tire",
+      "price": 12.97,
+      "unit": "tube"
+    },
+    {
+      "item": "Ant bait station (8pk)",
+      "sku": "CT-AB8",
+      "store": "Canadian Tire",
+      "price": 11.97,
+      "unit": "pack"
+    },
+    {
+      "item": "Spray foam sealant (12oz)",
+      "sku": "HDC-SFS12",
+      "store": "Home Depot",
+      "price": 9.97,
+      "unit": "can"
+    },
+    {
+      "item": "Steel wool (for gaps)",
+      "sku": "CT-SW01",
+      "store": "Canadian Tire",
+      "price": 6.97,
+      "unit": "pack"
+    }
+  ],
+  "general_supplies": [
+    {
+      "item": "Spray foam insulation (12oz)",
+      "sku": "HDC-SFI12",
+      "store": "Home Depot",
+      "price": 9.97,
+      "unit": "can"
+    },
+    {
+      "item": "Painter\\'s tape (1\" x 60yd)",
+      "sku": "HDC-PT160",
+      "store": "Home Depot",
+      "price": 6.97,
+      "unit": "roll"
+    },
+    {
+      "item": "Interior paint (3.78L)",
+      "sku": "HDC-IP378",
+      "store": "Home Depot",
+      "price": 34.97,
+      "unit": "can"
+    },
+    {
+      "item": "Primer (3.78L)",
+      "sku": "HDC-PR378",
+      "store": "Home Depot",
+      "price": 29.97,
+      "unit": "can"
+    },
+    {
+      "item": "Drop cloth (9x12)",
+      "sku": "HDC-DC912",
+      "store": "Home Depot",
+      "price": 12.97,
+      "unit": "each"
+    },
+    {
+      "item": "Safety glasses",
+      "sku": "HDC-SG01",
+      "store": "Home Depot",
+      "price": 4.97,
+      "unit": "each"
+    },
+    {
+      "item": "Work gloves (medium)",
+      "sku": "HDC-WG01",
+      "store": "Home Depot",
+      "price": 8.97,
+      "unit": "pair"
+    },
+    {
+      "item": "Utility knife + blades",
+      "sku": "HDC-UK01",
+      "store": "Home Depot",
+      "price": 9.97,
+      "unit": "each"
+    },
+    {
+      "item": "Wood screws #8 x 2\" (100pk)",
+      "sku": "HDC-WS2100",
+      "store": "Home Depot",
+      "price": 7.97,
+      "unit": "box"
+    },
+    {
+      "item": "Construction adhesive (10oz)",
+      "sku": "HDC-CA10",
+      "store": "Home Depot",
+      "price": 6.97,
+      "unit": "tube"
+    }
+  ]
+}
