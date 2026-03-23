@@ -1,7 +1,8 @@
 // v3 env vars set
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, CheckCircle, Home, Star, Zap } from 'lucide-react';
+import { ArrowRight, CheckCircle, Home, Star, Zap, Wrench } from 'lucide-react';
+import { HropLogo } from '../components/HropLogo';
 
 // Animate number counting up
 function CountUp({ target, suffix = '' }: { target: number; suffix?: string }) {
