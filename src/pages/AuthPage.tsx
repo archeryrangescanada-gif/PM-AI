@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { Mail, Lock, User, Phone, Home, Shield, Users } from 'lucide-react';
+import { HropLogo } from '../components/HropLogo';
 
 type AuthMode = 'signin' | 'signup' | 'role-select' | 'verify';
 type UserRole = 'tenant' | 'landlord' | 'service_provider';
