@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { analyzeMaintenanceRequest } from '../lib/ai';
 import {
   Plus,
   Image as ImageIcon,
@@ -405,8 +406,13 @@ export default function TenantDashboard() {
 
                   {request.estimated_cost && (
                     <div className="text-right">
-                      <p className="text-sm text-gray-500">Estimated Cost</p>
-                      <p className="text-2xl font-bold text-green-600">${request.estimated_cost}</p>
+                      <p className="text-xs text-gray-400 uppercase tracking-wide">Platform Estimate Only</p>
+                      <p className="text-2xl font-bold text-[#0099A8]">
+                        ${request.estimated_cost} &ndash; ${Math.round(request.estimated_cost * 1.3 / 10) * 10}
+                      </p>
+                      <p className="text-xs italic text-gray-400 max-w-[220px] mt-1">
+                        Final price confirmed by your Trade Pro on-site. Not a binding quote.
+                      </p>
                     </div>
                   )}
                 </div>
@@ -428,7 +434,9 @@ export default function TenantDashboard() {
 
                 {request.ai_analysis && (
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
-                    <p className="text-sm font-semibold text-blue-900 mb-1">AI Analysis</p>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="px-2 py-0.5 rounded text-xs font-semibold bg-[#0099A8] text-white">HPM Assessment</span>
+                    </div>
                     <p className="text-sm text-blue-700">{request.ai_analysis}</p>
                   </div>
                 )}
