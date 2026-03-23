@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { analyzeMaintenanceRequest } from '../lib/ai';
 import {
@@ -8,7 +9,9 @@ import {
   Clock,
   CheckCircle,
   XCircle,
-  Upload
+  Upload,
+  LogOut,
+  Home
 } from 'lucide-react';
 
 interface MaintenanceRequest {
@@ -35,6 +38,7 @@ interface Property {
 }
 
 export default function TenantDashboard() {
+  const navigate = useNavigate();
   const [requests, setRequests] = useState<MaintenanceRequest[]>([]);
   const [properties, setProperties] = useState<Property[]>([]);
   const [showNewRequest, setShowNewRequest] = useState(false);
@@ -183,8 +187,17 @@ export default function TenantDashboard() {
     }
   };
 
+  const statusLabelMap: Record<string, string> = {
+    pending: 'Waiting for Approval',
+    approved: 'Approved — Finding Trade Pro',
+    assigned: 'Trade Pro Assigned',
+    in_progress: 'Work In Progress',
+    completed: 'Completed',
+    rejected: 'Declined',
+  };
+
   const getStatusText = (status: string) => {
-    return status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+    return statusLabelMap[status] || status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
 
   if (loading) {
@@ -205,18 +218,40 @@ export default function TenantDashboard() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold text-gray-900">My Maintenance Requests</h1>
-            <button
-              onClick={() => setShowNewRequest(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg font-semibold hover:bg-[var(--color-primary-dark)] transition-colors"
-            >
-              <Plus className="w-5 h-5" />
-              New Request
-            </button>
+            <div className="flex items-center gap-3">
+              {properties.length > 0 && (
+                <button
+                  onClick={() => setShowNewRequest(true)}
+                  className="flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg font-semibold hover:bg-[var(--color-primary-dark)] transition-colors"
+                >
+                  <Plus className="w-5 h-5" />
+                  New Request
+                </button>
+              )}
+              <button
+                onClick={async () => { await supabase.auth.signOut(); navigate('/auth'); }}
+                className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       <div className="container mx-auto px-6 py-8">
+        {/* No Properties Empty State */}
+        {properties.length === 0 && (
+          <div className="bg-white rounded-xl p-12 text-center shadow-sm border border-gray-200 mb-8">
+            <Home className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">No properties linked yet</h3>
+            <p className="text-gray-600">
+              Contact your landlord to be added to a property.
+            </p>
+          </div>
+        )}
+
         {/* New Request Modal */}
         {showNewRequest && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-6">
