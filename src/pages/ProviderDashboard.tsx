@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
+import TradeProOnboarding from '../components/TradeProOnboarding';
 import {
   DollarSign,
   Briefcase,
@@ -8,7 +10,8 @@ import {
   MapPin,
   Calendar,
   TrendingUp,
-  Star
+  Star,
+  LogOut
 } from 'lucide-react';
 
 interface Job {
@@ -33,14 +36,22 @@ interface ProviderStats {
   total_jobs: number;
   rating: number;
   available: boolean;
+  stripe_onboarded?: boolean;
+  onboarding_complete?: boolean;
 }
 
 export default function ProviderDashboard() {
+  const navigate = useNavigate();
+  const [userId, setUserId] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [businessName, setBusinessName] = useState('');
   const [stats, setStats] = useState<ProviderStats>({
     total_earnings: 0,
     total_jobs: 0,
     rating: 0,
     available: true,
+    stripe_onboarded: false,
+    onboarding_complete: false,
   });
   const [availableJobs, setAvailableJobs] = useState<Job[]>([]);
   const [activeJobs, setActiveJobs] = useState<Job[]>([]);
@@ -49,12 +60,23 @@ export default function ProviderDashboard() {
 
   useEffect(() => {
     loadDashboard();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_OUT') {
+        navigate('/auth');
+      }
+    });
+
+    return () => { subscription.unsubscribe(); };
   }, []);
 
   const loadDashboard = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) { navigate('/auth'); return; }
+
+      setUserId(user.id);
+      setUserEmail(user.email || '');
 
       // Load provider stats
       const { data: providerData } = await supabase
@@ -64,11 +86,14 @@ export default function ProviderDashboard() {
         .single();
 
       if (providerData) {
+        setBusinessName(providerData.business_name || '');
         setStats({
           total_earnings: providerData.total_earnings || 0,
           total_jobs: providerData.total_jobs || 0,
           rating: providerData.rating || 0,
           available: providerData.available,
+          stripe_onboarded: providerData.stripe_onboarded || false,
+          onboarding_complete: providerData.onboarding_complete || false,
         });
       }
 
@@ -206,7 +231,7 @@ export default function ProviderDashboard() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <h1 className="text-2xl font-bold text-gray-900">Service Provider Dashboard</h1>
+              <h1 className="text-2xl font-bold text-gray-900">Trade Pro Dashboard</h1>
               <button
                 onClick={toggleAvailability}
                 className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
@@ -218,11 +243,29 @@ export default function ProviderDashboard() {
                 {stats.available ? 'Available' : 'Unavailable'}
               </button>
             </div>
+            <button
+              onClick={async () => { await supabase.auth.signOut(); navigate('/auth'); }}
+              className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+            >
+              <LogOut className="w-4 h-4" />
+              Sign Out
+            </button>
           </div>
         </div>
       </div>
 
       <div className="container mx-auto px-6 py-8">
+        {/* Trade Pro Onboarding */}
+        {!stats.onboarding_complete && (
+          <TradeProOnboarding
+            providerId={userId}
+            email={userEmail}
+            businessName={businessName}
+            stripeOnboarded={!!stats.stripe_onboarded}
+            onComplete={() => setStats({ ...stats, onboarding_complete: true })}
+          />
+        )}
+
         {/* Stats Grid */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
@@ -277,8 +320,8 @@ export default function ProviderDashboard() {
           {availableJobs.length === 0 ? (
             <div className="bg-white rounded-xl p-8 text-center shadow-sm border border-gray-200">
               <Briefcase className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-              <p className="text-gray-600">No jobs available right now</p>
-              <p className="text-sm text-gray-500 mt-1">Check back soon for new opportunities</p>
+              <p className="text-gray-600">No jobs available in your area right now.</p>
+              <p className="text-sm text-gray-500 mt-1">Make sure your profile is complete and you're set to Available.</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 gap-6">

@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
+import { analyzeMaintenanceRequest } from '../lib/ai';
 import {
   Plus,
   Image as ImageIcon,
@@ -7,7 +9,12 @@ import {
   Clock,
   CheckCircle,
   XCircle,
-  Upload
+  Upload,
+  LogOut,
+  Home,
+  Loader2,
+  Star,
+  Wrench
 } from 'lucide-react';
 
 interface MaintenanceRequest {
@@ -25,6 +32,22 @@ interface MaintenanceRequest {
     address: string;
     city: string;
   };
+  job?: {
+    id: string;
+    status: string;
+  };
+}
+
+interface ProviderInfo {
+  tradeCategory: string;
+  estimatedArrival: string | null;
+  status: string;
+  providerAssigned: boolean;
+  businessName?: string;
+  serviceType?: string;
+  rating?: number;
+  totalJobs?: number;
+  maskedPhone?: string;
 }
 
 interface Property {
@@ -34,6 +57,7 @@ interface Property {
 }
 
 export default function TenantDashboard() {
+  const navigate = useNavigate();
   const [requests, setRequests] = useState<MaintenanceRequest[]>([]);
   const [properties, setProperties] = useState<Property[]>([]);
   const [showNewRequest, setShowNewRequest] = useState(false);
@@ -47,15 +71,25 @@ export default function TenantDashboard() {
   const [priority, setPriority] = useState('medium');
   const [photos, setPhotos] = useState<File[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [providerInfo, setProviderInfo] = useState<Record<string, ProviderInfo>>({});
+  const [providerLoading, setProviderLoading] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     loadDashboard();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_OUT') {
+        navigate('/auth');
+      }
+    });
+
+    return () => { subscription.unsubscribe(); };
   }, []);
 
   const loadDashboard = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) { navigate('/auth'); return; }
 
       // Load properties
       const { data: propertyTenants } = await supabase
@@ -68,21 +102,53 @@ export default function TenantDashboard() {
         setProperties(propertyTenants.map(pt => pt.property).filter(Boolean));
       }
 
-      // Load requests
+      // Load requests with linked jobs
       const { data: requestsData } = await supabase
         .from('maintenance_requests')
         .select(`
           *,
-          property:properties(address, city)
+          property:properties(address, city),
+          job:jobs(id, status)
         `)
         .eq('tenant_id', user.id)
         .order('created_at', { ascending: false });
 
-      setRequests(requestsData || []);
+      const reqs = (requestsData || []).map((r: any) => ({
+        ...r,
+        job: Array.isArray(r.job) ? r.job[0] : r.job,
+      }));
+      setRequests(reqs);
+
+      // Fetch provider info for requests that have jobs
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.access_token) {
+        for (const r of reqs) {
+          if (r.job?.id) {
+            fetchProviderInfo(r.job.id, session.access_token);
+          }
+        }
+      }
     } catch (error) {
       console.error('Error loading dashboard:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchProviderInfo = async (jobId: string, token: string) => {
+    setProviderLoading(prev => ({ ...prev, [jobId]: true }));
+    try {
+      const res = await fetch(`/api/get-job-provider?jobId=${jobId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setProviderInfo(prev => ({ ...prev, [jobId]: data }));
+      }
+    } catch (err) {
+      console.error('Error fetching provider info:', err);
+    } finally {
+      setProviderLoading(prev => ({ ...prev, [jobId]: false }));
     }
   };
 
@@ -182,8 +248,17 @@ export default function TenantDashboard() {
     }
   };
 
+  const statusLabelMap: Record<string, string> = {
+    pending: 'Waiting for Approval',
+    approved: 'Approved — Finding Trade Pro',
+    assigned: 'Trade Pro Assigned',
+    in_progress: 'Work In Progress',
+    completed: 'Completed',
+    rejected: 'Declined',
+  };
+
   const getStatusText = (status: string) => {
-    return status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+    return statusLabelMap[status] || status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
 
   if (loading) {
@@ -204,18 +279,40 @@ export default function TenantDashboard() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold text-gray-900">My Maintenance Requests</h1>
-            <button
-              onClick={() => setShowNewRequest(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg font-semibold hover:bg-[var(--color-primary-dark)] transition-colors"
-            >
-              <Plus className="w-5 h-5" />
-              New Request
-            </button>
+            <div className="flex items-center gap-3">
+              {properties.length > 0 && (
+                <button
+                  onClick={() => setShowNewRequest(true)}
+                  className="flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg font-semibold hover:bg-[var(--color-primary-dark)] transition-colors"
+                >
+                  <Plus className="w-5 h-5" />
+                  New Request
+                </button>
+              )}
+              <button
+                onClick={async () => { await supabase.auth.signOut(); navigate('/auth'); }}
+                className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       <div className="container mx-auto px-6 py-8">
+        {/* No Properties Empty State */}
+        {properties.length === 0 && (
+          <div className="bg-white rounded-xl p-12 text-center shadow-sm border border-gray-200 mb-8">
+            <Home className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">No properties linked yet</h3>
+            <p className="text-gray-600">
+              Contact your landlord to be added to a property.
+            </p>
+          </div>
+        )}
+
         {/* New Request Modal */}
         {showNewRequest && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-6">
@@ -405,8 +502,13 @@ export default function TenantDashboard() {
 
                   {request.estimated_cost && (
                     <div className="text-right">
-                      <p className="text-sm text-gray-500">Estimated Cost</p>
-                      <p className="text-2xl font-bold text-green-600">${request.estimated_cost}</p>
+                      <p className="text-xs text-gray-400 uppercase tracking-wide">Platform Estimate Only</p>
+                      <p className="text-2xl font-bold text-[#0099A8]">
+                        ${request.estimated_cost} &ndash; ${Math.round(request.estimated_cost * 1.3 / 10) * 10}
+                      </p>
+                      <p className="text-xs italic text-gray-400 max-w-[220px] mt-1">
+                        Final price confirmed by your Trade Pro on-site. Not a binding quote.
+                      </p>
                     </div>
                   )}
                 </div>
@@ -428,8 +530,69 @@ export default function TenantDashboard() {
 
                 {request.ai_analysis && (
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
-                    <p className="text-sm font-semibold text-blue-900 mb-1">AI Analysis</p>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="px-2 py-0.5 rounded text-xs font-semibold bg-[#0099A8] text-white">HPM Assessment</span>
+                    </div>
                     <p className="text-sm text-blue-700">{request.ai_analysis}</p>
+                  </div>
+                )}
+
+                {/* Your Trade Pro Section */}
+                {request.job && (
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Wrench className="w-4 h-4 text-[#0099A8]" />
+                      <h4 className="text-sm font-semibold text-gray-900">Your Trade Pro</h4>
+                    </div>
+                    {providerLoading[request.job.id] ? (
+                      <div className="flex items-center gap-2 text-sm text-gray-500">
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Loading...
+                      </div>
+                    ) : providerInfo[request.job.id] ? (
+                      (() => {
+                        const info = providerInfo[request.job.id];
+                        if (['in_progress', 'completed'].includes(info.status) && info.businessName) {
+                          return (
+                            <div className="space-y-1">
+                              <p className="text-sm font-medium text-gray-900">{info.businessName}</p>
+                              <p className="text-sm text-gray-600 capitalize">{info.serviceType || info.tradeCategory}</p>
+                              {info.rating && (
+                                <div className="flex items-center gap-1">
+                                  <Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />
+                                  <span className="text-sm text-gray-700">{info.rating}</span>
+                                </div>
+                              )}
+                              {info.maskedPhone && (
+                                <p className="text-sm text-gray-500">{info.maskedPhone}</p>
+                              )}
+                            </div>
+                          );
+                        }
+                        if (info.providerAssigned && ['accepted'].includes(info.status)) {
+                          return (
+                            <div className="space-y-1">
+                              <p className="text-sm font-medium text-gray-700">Trade Pro Assigned</p>
+                              <p className="text-sm text-gray-500 capitalize">{info.tradeCategory}</p>
+                              {info.maskedPhone && (
+                                <p className="text-sm text-gray-400">{info.maskedPhone}</p>
+                              )}
+                            </div>
+                          );
+                        }
+                        return (
+                          <div className="flex items-center gap-2 text-sm text-gray-500">
+                            <Loader2 className="w-4 h-4 animate-spin text-[#0099A8]" />
+                            Matching your request to a verified Trade Pro...
+                          </div>
+                        );
+                      })()
+                    ) : (
+                      <div className="flex items-center gap-2 text-sm text-gray-500">
+                        <Loader2 className="w-4 h-4 animate-spin text-[#0099A8]" />
+                        Matching your request to a verified Trade Pro...
+                      </div>
+                    )}
                   </div>
                 )}
 

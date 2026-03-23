@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import {
   Building,
@@ -9,7 +10,12 @@ import {
   Clock,
   Plus,
   MapPin,
-  Image as ImageIcon
+  Image as ImageIcon,
+  LogOut,
+  UserPlus,
+  Loader2,
+  Star,
+  Wrench
 } from 'lucide-react';
 
 interface MaintenanceRequest {
@@ -32,6 +38,22 @@ interface MaintenanceRequest {
     address: string;
     city: string;
   };
+  job?: {
+    id: string;
+    status: string;
+  };
+}
+
+interface ProviderInfo {
+  tradeCategory: string;
+  estimatedArrival: string | null;
+  status: string;
+  providerAssigned: boolean;
+  businessName?: string;
+  serviceType?: string;
+  rating?: number;
+  totalJobs?: number;
+  maskedPhone?: string;
 }
 
 interface Property {
@@ -45,11 +67,16 @@ interface Property {
 
 export default // build:1774227271
 function LandlordDashboard() {
+  const navigate = useNavigate();
   const [properties, setProperties] = useState<Property[]>([]);
   const [requests, setRequests] = useState<MaintenanceRequest[]>([]);
   const [selectedRequest, setSelectedRequest] = useState<MaintenanceRequest | null>(null);
   const [loading, setLoading] = useState(true);
   const [showAddProperty, setShowAddProperty] = useState(false);
+  const [showInviteTenant, setShowInviteTenant] = useState<string | null>(null);
+  const [inviteEmail, setInviteEmail] = useState('');
+  const [providerInfo, setProviderInfo] = useState<Record<string, ProviderInfo>>({});
+  const [providerLoading, setProviderLoading] = useState<Record<string, boolean>>({});
 
   // Property form state
   const [address, setAddress] = useState('');
@@ -61,12 +88,20 @@ function LandlordDashboard() {
 
   useEffect(() => {
     loadDashboard();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_OUT') {
+        navigate('/auth');
+      }
+    });
+
+    return () => { subscription.unsubscribe(); };
   }, []);
 
   const loadDashboard = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) { navigate('/auth'); return; }
 
       // Load properties
       const { data: propertiesData } = await supabase
@@ -77,22 +112,54 @@ function LandlordDashboard() {
 
       setProperties(propertiesData || []);
 
-      // Load maintenance requests
+      // Load maintenance requests with linked jobs
       const { data: requestsData } = await supabase
         .from('maintenance_requests')
         .select(`
           *,
           tenant:profiles!maintenance_requests_tenant_id_fkey(full_name, phone),
-          property:properties(id, address, city)
+          property:properties(id, address, city),
+          job:jobs(id, status)
         `)
         .eq('landlord_id', user.id)
         .order('created_at', { ascending: false });
 
-      setRequests(requestsData || []);
+      const reqs = (requestsData || []).map((r: any) => ({
+        ...r,
+        job: Array.isArray(r.job) ? r.job[0] : r.job,
+      }));
+      setRequests(reqs);
+
+      // Fetch provider info for requests that have jobs
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.access_token) {
+        for (const r of reqs) {
+          if (r.job?.id) {
+            fetchProviderInfo(r.job.id, session.access_token);
+          }
+        }
+      }
     } catch (error) {
       console.error('Error loading dashboard:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchProviderInfo = async (jobId: string, token: string) => {
+    setProviderLoading(prev => ({ ...prev, [jobId]: true }));
+    try {
+      const res = await fetch(`/api/get-job-provider?jobId=${jobId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setProviderInfo(prev => ({ ...prev, [jobId]: data }));
+      }
+    } catch (err) {
+      console.error('Error fetching provider info:', err);
+    } finally {
+      setProviderLoading(prev => ({ ...prev, [jobId]: false }));
     }
   };
 
@@ -189,13 +256,22 @@ function LandlordDashboard() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold text-gray-900">Landlord Dashboard</h1>
-            <button
-              onClick={() => setShowAddProperty(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg font-semibold hover:bg-[var(--color-primary-dark)] transition-colors"
-            >
-              <Plus className="w-5 h-5" />
-              Add Property
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setShowAddProperty(true)}
+                className="flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg font-semibold hover:bg-[var(--color-primary-dark)] transition-colors"
+              >
+                <Plus className="w-5 h-5" />
+                Add Property
+              </button>
+              <button
+                onClick={async () => { await supabase.auth.signOut(); navigate('/auth'); }}
+                className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -276,28 +352,28 @@ function LandlordDashboard() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      State
+                      Province
                     </label>
                     <input
                       type="text"
                       value={state}
                       onChange={(e) => setState(e.target.value)}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
-                      placeholder="State"
+                      placeholder="ON"
                       required
                     />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Zip Code
+                      Postal Code
                     </label>
                     <input
                       type="text"
                       value={zipCode}
                       onChange={(e) => setZipCode(e.target.value)}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
-                      placeholder="12345"
+                      placeholder="L1N 0A1"
                       required
                     />
                   </div>
@@ -350,6 +426,37 @@ function LandlordDashboard() {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        )}
+
+        {/* Invite Tenant Modal */}
+        {showInviteTenant && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-6">
+            <div className="bg-white rounded-xl max-w-md w-full p-6">
+              <h2 className="text-lg font-bold text-gray-900 mb-4">Link Tenant to Property</h2>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Tenant Email</label>
+              <input
+                type="email"
+                value={inviteEmail}
+                onChange={(e) => setInviteEmail(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent mb-4"
+                placeholder="tenant@email.com"
+              />
+              <div className="flex gap-3">
+                <button
+                  onClick={() => { setShowInviteTenant(null); setInviteEmail(''); }}
+                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => { alert('Invite feature coming soon'); setShowInviteTenant(null); setInviteEmail(''); }}
+                  className="flex-1 px-4 py-3 bg-[var(--color-primary)] text-white rounded-lg font-semibold hover:bg-[var(--color-primary-dark)] transition-colors"
+                >
+                  Send Invite
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -413,7 +520,7 @@ function LandlordDashboard() {
 
                 {selectedRequest.ai_analysis && (
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                    <p className="text-sm font-semibold text-blue-900 mb-1">AI Analysis</p>
+                    <p className="text-sm font-semibold text-blue-900 mb-1">HPM Assessment</p>
                     <p className="text-sm text-blue-700">{selectedRequest.ai_analysis}</p>
                   </div>
                 )}
@@ -534,11 +641,43 @@ function LandlordDashboard() {
                       <span className="px-2 py-1 rounded text-xs font-semibold bg-blue-100 text-blue-700">
                         {request.status.replace('_', ' ').toUpperCase()}
                       </span>
+                      {/* Trade Pro Info */}
+                      {request.job && (
+                        <div className="mt-2 flex items-center gap-2">
+                          <Wrench className="w-3.5 h-3.5 text-[#0099A8]" />
+                          {providerLoading[request.job.id] ? (
+                            <span className="text-xs text-gray-500 flex items-center gap-1">
+                              <Loader2 className="w-3 h-3 animate-spin" /> Loading...
+                            </span>
+                          ) : providerInfo[request.job.id] ? (
+                            (() => {
+                              const info = providerInfo[request.job.id];
+                              if (['accepted', 'in_progress', 'completed'].includes(info.status) && info.businessName) {
+                                return (
+                                  <span className="text-xs text-gray-700">
+                                    {info.businessName} &middot; <span className="capitalize">{info.serviceType || info.tradeCategory}</span>
+                                    {info.rating ? <> &middot; <Star className="w-3 h-3 text-yellow-500 fill-yellow-500 inline" /> {info.rating}</> : null}
+                                  </span>
+                                );
+                              }
+                              return (
+                                <span className="text-xs text-gray-500 flex items-center gap-1">
+                                  <Loader2 className="w-3 h-3 animate-spin text-[#0099A8]" /> Finding Trade Pro for this job...
+                                </span>
+                              );
+                            })()
+                          ) : (
+                            <span className="text-xs text-gray-500 flex items-center gap-1">
+                              <Loader2 className="w-3 h-3 animate-spin text-[#0099A8]" /> Finding Trade Pro for this job...
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
                     {request.estimated_cost && (
                       <div className="text-right">
-                        <p className="text-sm text-gray-500">Cost</p>
-                        <p className="text-xl font-bold text-green-600">${request.estimated_cost}</p>
+                        <p className="text-xs text-gray-400 uppercase tracking-wide">Platform Est.</p>
+                        <p className="text-xl font-bold text-[#0099A8]">${request.estimated_cost} &ndash; ${Math.round(request.estimated_cost * 1.3 / 10) * 10}</p>
                       </div>
                     )}
                   </div>
@@ -583,6 +722,13 @@ function LandlordDashboard() {
                     <span className="text-gray-600">{property.property_type}</span>
                     <span className="text-gray-600">{property.units} unit(s)</span>
                   </div>
+                  <button
+                    onClick={() => setShowInviteTenant(property.id)}
+                    className="mt-3 flex items-center gap-1 px-3 py-1.5 text-xs font-semibold border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    <UserPlus className="w-3.5 h-3.5" />
+                    Link Tenant
+                  </button>
                 </div>
               ))}
             </div>
