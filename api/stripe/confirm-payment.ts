@@ -57,6 +57,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         body: JSON.stringify({ status: "paid" }),
       });
 
+      // Look up payment record to get id, amount, and provider
+      const paymentRes = await supabaseRequest(
+        `payments?stripe_payment_intent_id=eq.${paymentIntentId}&select=id,amount,service_provider_id`,
+        { headers: { Prefer: "return=representation" } }
+      );
+      const paymentRecords = await paymentRes.json();
+      if (paymentRecords.length > 0) {
+        const payment = paymentRecords[0];
+        // Trigger T4A tax tracking
+        const baseUrl = `${req.headers["x-forwarded-proto"] || "https"}://${req.headers.host}`;
+        await fetch(`${baseUrl}/api/update-payment-tax`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            paymentId: payment.id,
+            jobId,
+            amount: payment.amount,
+            providerId: payment.service_provider_id,
+          }),
+        });
+      }
+
       return res.status(200).json({ success: true, status: "succeeded" });
     }
 

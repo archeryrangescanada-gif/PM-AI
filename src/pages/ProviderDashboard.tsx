@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import StripeOnboarding from '../components/StripeOnboarding';
+import TradeProOnboarding from '../components/TradeProOnboarding';
 import {
   DollarSign,
   Briefcase,
@@ -37,6 +37,7 @@ interface ProviderStats {
   rating: number;
   available: boolean;
   stripe_onboarded?: boolean;
+  onboarding_complete?: boolean;
 }
 
 export default function ProviderDashboard() {
@@ -50,6 +51,7 @@ export default function ProviderDashboard() {
     rating: 0,
     available: true,
     stripe_onboarded: false,
+    onboarding_complete: false,
   });
   const [availableJobs, setAvailableJobs] = useState<Job[]>([]);
   const [activeJobs, setActiveJobs] = useState<Job[]>([]);
@@ -83,6 +85,7 @@ export default function ProviderDashboard() {
           rating: providerData.rating || 0,
           available: providerData.available,
           stripe_onboarded: providerData.stripe_onboarded || false,
+          onboarding_complete: providerData.onboarding_complete || false,
         });
       }
 
@@ -244,6 +247,17 @@ export default function ProviderDashboard() {
       </div>
 
       <div className="container mx-auto px-6 py-8">
+        {/* Trade Pro Onboarding */}
+        {!stats.onboarding_complete && (
+          <TradeProOnboarding
+            providerId={userId}
+            email={userEmail}
+            businessName={businessName}
+            stripeOnboarded={!!stats.stripe_onboarded}
+            onComplete={() => setStats({ ...stats, onboarding_complete: true })}
+          />
+        )}
+
         {/* Stats Grid */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
@@ -291,18 +305,6 @@ export default function ProviderDashboard() {
             <p className="text-sm text-gray-500 mt-2">In progress</p>
           </div>
         </div>
-
-        {/* Stripe Onboarding */}
-        {!stats.stripe_onboarded && (
-          <div className="mb-8">
-            <StripeOnboarding
-              providerId={userId}
-              email={userEmail}
-              businessName={businessName}
-              isOnboarded={!!stats.stripe_onboarded}
-            />
-          </div>
-        )}
 
         {/* Available Jobs */}
         <div className="mb-8">
